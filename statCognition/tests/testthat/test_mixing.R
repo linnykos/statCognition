@@ -14,3 +14,10 @@ test_that("generate_mixing_default works", {
     expect_true(all(dim(mat2) == dim(mat)))
   }
 })
+
+## generate_synthetic_data is correct
+
+test_that("generate_synthetic_data works", {
+  mat <- matrix(1:30, 5, 6)
+  mat2 <- generate_synthetic_data(mat)
+})
