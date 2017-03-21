@@ -4,7 +4,7 @@
 \alias{mixing_swap_rows}
 \title{Mixing function: Swap rows}
 \usage{
-mixing_swap_rows(mat, idx1, idx2)
+mixing_swap_rows(mat, idx1, idx2, ...)
 }
 \arguments{
 \item{mat}{data matrix}
@@ -12,6 +12,8 @@ mixing_swap_rows(mat, idx1, idx2)
 \item{idx1}{indicies of rows}
 
 \item{idx2}{indicies of rows}
+
+\item{...}{not used}
 }
 \value{
 numeric matrix

@@ -4,12 +4,14 @@
 \alias{mixing_inflate_correlation}
 \title{Mixing function: Inflate correlation}
 \usage{
-mixing_inflate_correlation(mat, percentage_columns = 0.1)
+mixing_inflate_correlation(mat, percentage_columns = 0.1, ...)
 }
 \arguments{
 \item{mat}{data matrix}
 
 \item{percentage_columns}{percentage of columns affected}
+
+\item{...}{not used}
 }
 \value{
 numeric matrix

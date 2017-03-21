@@ -4,10 +4,12 @@
 \alias{mixing_refit_normality}
 \title{Mixing function: Refit from Gaussian distribution}
 \usage{
-mixing_refit_normality(mat)
+mixing_refit_normality(mat, ...)
 }
 \arguments{
 \item{mat}{data matrix}
+
+\item{...}{not used}
 }
 \value{
 numeric matrix

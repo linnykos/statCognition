@@ -4,12 +4,14 @@
 \alias{mixing_shuffle_rows}
 \title{Mixing function: Shuffle rows}
 \usage{
-mixing_shuffle_rows(mat, percentage_columns = 0.1)
+mixing_shuffle_rows(mat, percentage_columns = 0.1, ...)
 }
 \arguments{
 \item{mat}{data matrix}
 
 \item{percentage_columns}{percentage of columns affected}
+
+\item{...}{not used}
 }
 \value{
 numeric matrix

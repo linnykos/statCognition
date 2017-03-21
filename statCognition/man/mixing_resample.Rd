@@ -4,10 +4,12 @@
 \alias{mixing_resample}
 \title{Mixing function: Resample rows}
 \usage{
-mixing_resample(mat)
+mixing_resample(mat, ...)
 }
 \arguments{
 \item{mat}{data matrix}
+
+\item{...}{not used}
 }
 \value{
 numeric matrix

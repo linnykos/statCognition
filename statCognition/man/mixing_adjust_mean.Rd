@@ -5,12 +5,14 @@
 \title{Mixing function: Adjust mean}
 \usage{
 mixing_adjust_mean(mat, noise_func = function(x) {     x + stats::sd(x)/2 *
-  stats::rnorm(length(x)) })
+  stats::rnorm(length(x)) }, ...)
 }
 \arguments{
 \item{mat}{data matrix}
 
 \item{noise_func}{function to apply to each column of mat}
+
+\item{...}{not used}
 }
 \value{
 numeric matrix
