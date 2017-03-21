@@ -71,9 +71,9 @@ mixing_resample <- function(mat, ...){
 #'
 #' @return numeric matrix
 #' @export
-mixing_swap_rows <- function(mat, idx1, idx2, ...){
+mixing_swap_rows <- function(mat, idx1 = c(1,2), idx2 = c(3,4), ...){
   stopifnot(length(idx1) == length(idx2), length(intersect(idx1, idx2)) == 0,
-            is.numeric(mat), is.matrix(mat))
+            is.numeric(mat), is.matrix(mat), nrow(mat) >= 4)
 
   tmp <- mat[sample(idx1),,drop = F]; tmp2 <- mat[sample(idx2),,drop = F]
   mat[idx1,] <- tmp2; mat[idx2,] <- tmp

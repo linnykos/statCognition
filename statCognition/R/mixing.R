@@ -1,4 +1,4 @@
-mixing_data <- function(mat, mixing_list = mixing_list_default(),
+generate_synthetic_data <- function(mat, mixing_list = generate_mixing_default(),
                         distortion_param = 0.4, stopping_param = 0.8, base.seed = 10, ...){
 
   set.seed(base.seed)
@@ -12,14 +12,17 @@ mixing_data <- function(mat, mixing_list = mixing_list_default(),
   mat
 }
 
-mixing_list_default <- function(package_name = "statCognition",
+generate_mixing_default <- function(package_name = "statCognition",
                                  function_starter = "mixing"){
   if(!isNamespaceLoaded(package_name)) stop(paste(package_name, "is not",
                                                   "currently loaded"))
 
   all.obj <- ls(paste0("package:", package_name))
+  print(all.obj)
 
+  print("YOLO")
   fun <- grep(paste0("^", function_starter, "_*"), all.obj, value = T)
+  print(fun)
 
   lis <- lapply(fun, function(x){
     eval(parse(text = paste0(package_name, "::", x)))

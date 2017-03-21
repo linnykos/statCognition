@@ -4,7 +4,7 @@
 \alias{mixing_swap_rows}
 \title{Mixing function: Swap rows}
 \usage{
-mixing_swap_rows(mat, idx1, idx2, ...)
+mixing_swap_rows(mat, idx1 = c(1, 2), idx2 = c(3, 4), ...)
 }
 \arguments{
 \item{mat}{data matrix}
