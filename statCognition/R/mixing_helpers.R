@@ -1,15 +1,15 @@
 #' Mixing function: Shuffle columns
 #'
 #' @param mat data matrix
-#' @param percent_columns percentage of columns affected
+#' @param percentage_columns percentage of columns affected
 #'
 #' @return numeric matrix
 #' @export
-mixing_shuffle_columns <- function(mat, percent_columns = 0.1){
-  stopifnot(percentage_columns <= 1, is.numeric(mat), is.matrix(mat))
+mixing_shuffle_columns <- function(mat, percentage_columns = 0.1){
+  stopifnot(percentage_columns <= 1, is.numeric(mat), is.matrix(mat), ncol(mat) >= 2)
 
-  idx_columns <- sample(1:ncol(mat), round(percentage_columns * ncol(mat)))
-  mat[,idx_columns] <- mat[,sample(idx_columns)]
+  idx_columns <- sample(1:ncol(mat), max(ceiling(percentage_columns * ncol(mat)), 2))
+  mat[,idx_columns] <- mat[,sample(idx_columns), drop = F]
 
   mat
 }
@@ -17,15 +17,15 @@ mixing_shuffle_columns <- function(mat, percent_columns = 0.1){
 #' Mixing function: Shuffle rows
 #'
 #' @param mat data matrix
-#' @param percent_columns percentage of columns affected
+#' @param percentage_columns percentage of columns affected
 #'
 #' @return numeric matrix
 #' @export
-mixing_shuffle_rows <- function(mat, percent_columns = 0.1){
+mixing_shuffle_rows <- function(mat, percentage_columns = 0.1){
   stopifnot(percentage_columns <= 1, is.numeric(mat), is.matrix(mat))
 
-  idx_columns <- sample(1:ncol(mat), round(percentage_columns * ncol(mat)))
-  mat[,idx_columns] <- mat[sample(1:nrow(mat)), idx_columns]
+  idx_columns <- sample(1:ncol(mat), max(ceiling(percentage_columns * ncol(mat))), 2)
+  mat[,idx_columns] <- mat[sample(1:nrow(mat)), idx_columns, drop = F]
 
   mat
 }
@@ -55,7 +55,7 @@ mixing_resample <- function(mat){
   stopifnot(is.numeric(mat), is.matrix(mat))
 
   idx <- sample(1:nrow(mat), nrow(mat), replace = T)
-  mat[idx,]
+  mat[idx,,drop = F]
 }
 
 #' Mixing function: Swap rows
@@ -70,8 +70,8 @@ mixing_swap_rows <- function(mat, idx1, idx2){
   stopifnot(length(idx1) == length(idx2), length(intersect(idx1, idx2)) == 0,
             is.numeric(mat), is.matrix(mat))
 
-  mat[sample(idx1),] <- tmp; mat[sample(idx2),] <- tmp2
-  mat[idx1,] <- tmp2; mat[idx2,] <- tmp
+  tmp <- mat[sample(idx1),,drop = F]; tmp2 <- mat[sample(idx2),,drop = F]
+  mat[idx1,,drop = F] <- tmp2; mat[idx2,,drop = F] <- tmp
 
   mat
 }
@@ -83,7 +83,7 @@ mixing_swap_rows <- function(mat, idx1, idx2){
 #'
 #' @return numeric matrix
 #' @export
-mixing_adjust_mean <- function(mat, noise_func = function(x){x + sd(x)/2*rnorm(length(x))}){
+mixing_adjust_mean <- function(mat, noise_func = function(x){x + stats::sd(x)/2*stats::rnorm(length(x))}){
   stopifnot(is.numeric(mat), is.matrix(mat))
   apply(mat, 1, function(y){noise_func(y)})
 }
@@ -91,16 +91,16 @@ mixing_adjust_mean <- function(mat, noise_func = function(x){x + sd(x)/2*rnorm(l
 #' Mixing function: Inflate correlation
 #'
 #' @param mat data matrix
-#' @param percent_columns percentage of columns affected
+#' @param percentage_columns percentage of columns affected
 #'
 #' @return numeric matrix
 #' @export
 mixing_inflate_correlation <- function(mat, percentage_columns = 0.1){
   stopifnot(percentage_columns <= 1, ncol(mat) >= 2, is.numeric(mat), is.matrix(mat))
 
-  idx <- sample(1:ncol(mat), floor(percentage_columns*ncol(mat)/2)*2)
+  idx <- sample(1:ncol(mat), max(floor(percentage_columns*ncol(mat)/2)*2), 2)
   if(length(idx) <= 2) idx <- sample(ncol(mat), 2)
-  idx_pairs <- matrix(idx, ncol = 2, drop = F)
+  idx_pairs <- matrix(idx, ncol = 2)
 
   for(i in 1:nrow(idx_pairs)){
     mat[,idx_pairs[i,2]] <- rowMeans(mat[,idx_pairs[i,]])

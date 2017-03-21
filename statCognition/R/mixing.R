@@ -3,10 +3,10 @@ mixing_data <- function(mat, mixing_list = mixing_list_default(),
 
   set.seed(base.seed)
   while(TRUE){
-    idx_row <- sample(1:nrow(mat), round(distortion_param * runif(1) * nrow(mat)))
+    idx_row <- sample(1:nrow(mat), round(distortion_param * stats::runif(1) * nrow(mat)))
     mat[idx_row,] <- mixing_list[[sample(1:length(mixing_list), 1)]](mat[idx_row,])
 
-    if(runif(1) >= stopping_param) break()
+    if(stats::runif(1) >= stopping_param) break()
   }
 
   mat
