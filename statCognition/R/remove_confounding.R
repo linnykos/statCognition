@@ -21,17 +21,15 @@ RC_pairing_difference <- function(mat, pheno, ...){
   .compute_difference_pairings(mat, pairings)
 }
 
-# RC_kernel_regression <- function(mat, pheno, ...){
-#   requireNamespace("np")
-#
-#   stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
-#
-#   apply(mat, 2, function(x){
-#     bw <- np::npregbw(formula=eval(parse(text=paste0("x~",paste0(colnames(pheno), collapse = "+")))),
-#               data = pheno)
-#     np::npreg(bws = bw, residuals = TRUE)$resid
-#   })
-# }
+RC_random_forest_regression <- function(mat, pheno, ...){
+  requireNamespace("np")
+
+  stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
+
+  apply(mat, 2, function(x){
+    x - randomForest::randomForest(pheno, x)$predicted
+  })
+}
 
 ######
 .identify_factors <- function(dat){
