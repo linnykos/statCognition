@@ -1,4 +1,4 @@
-context("Test criterion data")
+context("Test criterion data sample selection")
 
 ## criterionData_influential_points is correct
 

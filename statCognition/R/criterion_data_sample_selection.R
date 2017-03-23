@@ -1,10 +1,5 @@
 criterionData_influential_points <- function(mat, num_pairs = 50, ...){
-  d <- ncol(mat)
-  if(d*(d-1)/2 < num_pairs){
-    pairs <- utils::combn(d, 2)
-  } else {
-    pairs <- .generate_possible_pairs(ncol(mat), num_pairs = num_pairs)
-  }
+  mat <- MV_remove(mat); d <- ncol(mat); pairs <- .generate_pairs(d, num_pairs)
 
   outliers <- apply(pairs, 2, function(x){
     tmp_mat <- cbind(mat[,x]); colnames(tmp_mat) <- c("V1", "V2"); tmp_mat <- as.data.frame(tmp_mat)
@@ -16,7 +11,7 @@ criterionData_influential_points <- function(mat, num_pairs = 50, ...){
 }
 
 criterionData_nearest_neighbor <- function(mat, ...){
-  mat <- scale(mat)
+  mat <- MV_remove(mat); mat <- scale(mat)
   dis <- as.matrix(stats::dist(mat))
   diag(dis) <- Inf
 
@@ -31,6 +26,14 @@ iqr <- stats::IQR(vec); mid <- stats::median(vec)
 }
 
 ######################
+
+.generate_pairs <- function(d, num_pairs){
+  if(d*(d-1)/2 < num_pairs){
+    utils::combn(d, 2)
+  } else {
+  .generate_possible_pairs(d, num_pairs = num_pairs)
+  }
+}
 
 .generate_possible_pairs <- function(d, num_pairs){
   idx <- sample(1:(d*(d-1)/2), num_pairs, replace = F)
