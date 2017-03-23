@@ -45,7 +45,7 @@ CG_discrete_mutual_information <- function(mat, threshold = 0.7, numBins = 5, ..
 }
 
 .threshold_correlation_matrix <- function(cor_mat, threshold){
-  stopifnot(threshold >= 0, threshold <= 1)
+  stopifnot(threshold >= 0)
 
   cor_mat[abs(cor_mat)>=threshold] <- 1
   cor_mat[abs(cor_mat)<=threshold] <- 0

@@ -53,7 +53,7 @@ test_that("RC_pairing_difference works", {
 test_that("RC_kernel_regression works", {
   set.seed(10)
   mat <- matrix(rnorm(300), 50, 6)
-  age <- rep(1:5,each=10)
+  age <- rep(1:5, each=10)
   gender <- as.factor(rep(c("M", "F", "M", "M", "F"), each = 10))
   pheno <- data.frame(age, gender)
   res <- RC_random_forest_regression(mat, pheno)

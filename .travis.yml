@@ -11,7 +11,8 @@ r_binary_packages:
     - entropy
     - energy
     - softImpute
-    - np
+    - randomForest
+    - huge
 
 after_success:
   - Rscript -e 'library(covr); codecov()'

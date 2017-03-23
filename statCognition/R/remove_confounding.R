@@ -22,8 +22,6 @@ RC_pairing_difference <- function(mat, pheno, ...){
 }
 
 RC_random_forest_regression <- function(mat, pheno, ...){
-  requireNamespace("np")
-
   stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
 
   apply(mat, 2, function(x){
