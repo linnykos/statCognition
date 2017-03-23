@@ -21,14 +21,17 @@ RC_pairing_difference <- function(mat, pheno, ...){
   .compute_difference_pairings(mat, pairings)
 }
 
-RC_kernel_regression <- function(mat, pheno, ...){
-  stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
-
-  apply(mat, 2, function(x){
-    bw <- np::npregbw(formula=x~pheno)
-    np::npreg(bws = bw, residuals = TRUE)$resid
-  })
-}
+# RC_kernel_regression <- function(mat, pheno, ...){
+#   requireNamespace("np")
+#
+#   stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
+#
+#   apply(mat, 2, function(x){
+#     bw <- np::npregbw(formula=eval(parse(text=paste0("x~",paste0(colnames(pheno), collapse = "+")))),
+#               data = pheno)
+#     np::npreg(bws = bw, residuals = TRUE)$resid
+#   })
+# }
 
 ######
 .identify_factors <- function(dat){
@@ -36,7 +39,7 @@ RC_kernel_regression <- function(mat, pheno, ...){
 }
 
 .adjust_data_frame_regression <- function(dat){
-  idx <- unique(.identify_factors(dat), which(dat, is.factor))
+  idx <- unique(.identify_factors(dat), which(sapply(dat, is.factor)))
   if(length(idx) > 0){
     dat_mod <- dat[,-idx]
 
@@ -64,7 +67,7 @@ RC_kernel_regression <- function(mat, pheno, ...){
 
 .regress_confounder <- function(mat, dat){
   apply(mat, 2, function(x){
-    stats::lm(x ~ dat)$residuals
+    stats::lm(x ~ ., data = dat)$residuals
   })
 }
 

@@ -8,7 +8,7 @@ SS_three_sd <- function(mat, ...){
   })
   idx <- unique(as.vector(unlist(idx)))
 
-  if(length(idx) == 0) mat else mat[-idx,]
+  if(length(idx) == 0) mat else mat[-idx,,drop = F]
 }
 
 SS_quantile <- function(mat, ...){
@@ -17,7 +17,7 @@ SS_quantile <- function(mat, ...){
   })
   idx <- unique(as.vector(unlist(idx)))
 
-  mat[-idx,]
+  mat[-idx,,drop = F]
 }
 
 SS_neighborhood <- function(mat, quantile = 0.9, neighbor_threshold = 1, ...){
@@ -30,5 +30,5 @@ SS_neighborhood <- function(mat, quantile = 0.9, neighbor_threshold = 1, ...){
     if(length(x) <= neighbor_threshold) FALSE else TRUE
   })
 
-  mat[which(bool),]
+  mat[which(bool),,drop = F]
 }
