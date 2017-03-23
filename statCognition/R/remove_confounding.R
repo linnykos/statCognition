@@ -55,7 +55,7 @@ RC_random_forest_regression <- function(mat, pheno, ...){
       as.numeric(dat[,i] == lev[x])
     })
 
-    cbind(mat_all, mat)
+    mat_all <- cbind(mat_all, mat)
   }
 
   mat_all

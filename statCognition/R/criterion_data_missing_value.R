@@ -7,13 +7,13 @@ criterionData_evenness_missing <- function(mat, ...){
   .l2norm(vec - rep(1/d, d))
 }
 
-criterionData_residual_randomforest_linreg <- function(mat, test_prop = 0.1, quant = 0.75, ...){
+criterionData_residual_RF_LR <- function(mat, test_prop = 0.1, quant = 0.75, ...){
   mat <- MV_remove(mat)
   n <- nrow(mat); d <- ncol(mat)
 
   mat <- as.data.frame(mat)
   test_idx <- sample(1:n, round(test_prop*n))
-  train_mat <- mat[-test_idx,]; test_mat <- mat[test_idx,]
+  train_mat <- mat[-test_idx,,drop = F]; test_mat <- mat[test_idx,,drop = F]
 
   vec <- sapply(1:d, function(x){
     rf_fit <- randomForest::randomForest(x = train_mat[,-x], y = train_mat[,x])

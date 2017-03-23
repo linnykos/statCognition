@@ -62,4 +62,19 @@ test_that("RC_kernel_regression works", {
   expect_true(all(dim(res) == c(50,6)))
 })
 
+#######################
+
+## .adjust_data_frame_regression is correct
+
+test_that("RC_pairing_difference works", {
+  age <- 1:5
+  gender <- as.factor(c("M", "F", "M", "M", "F"))
+  pheno <- data.frame(age, gender)
+  res <- .adjust_data_frame_regression(pheno)
+
+  expect_true(is.data.frame(res))
+  expect_true(all(dim(res) == c(5, 2)))
+})
+
+
 
