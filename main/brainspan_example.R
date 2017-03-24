@@ -29,3 +29,20 @@ pheno <- as.data.frame(t(sapply(nam, function(x){
   pheno[which(rownames(pheno) == x),]
 })))
 
+##########################
+#grab all the methods
+MV_list <- .grab_package_contents("MV", "MV_list")
+SS_list <- .grab_package_contents("SS", "SS_list")
+RC_list <- .grab_package_contents("RC", "RC_list")
+CG_list <- .grab_package_contents("CG", "CG_list")
+methods_pairs <- expand.grid(1:4, 1:4, 1:4, 1:4)
+
+igraph_list <- sapply(1:length(methods_pairs), function(x){
+  vec <- as.numeric(methods_pairs[x,])
+  res <- MV_list[[vec[1]]](mat)
+  res <- SS_list[[vec[2]]](res)
+  res <- RC_list[[vec[3]]](res, pheno)
+  res <- CG_list[[vec[4]]](res, edge_count = 16)
+  igraph::graph_from_adjacency_matrix(res)
+})
+

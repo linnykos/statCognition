@@ -17,8 +17,12 @@ generate_synthetic_data <- function(mat, mixing_list = generate_mixing_default()
   mat
 }
 
-generate_mixing_default <- function(package_name = "statCognition",
-                                 function_starter = "mixing"){
+generate_mixing_default <- function(function_starter = "mixing", class_name = "mixing_list",
+                                    package_name = "statCognition"){
+  .grab_package_contents(function_starter, class_name, package_name)
+}
+
+.grab_package_contents <- function(function_starter, class_name, package_name = "statCognition"){
   if(!isNamespaceLoaded(package_name)) stop(paste(package_name, "is not",
                                                   "currently loaded"))
 
@@ -30,5 +34,5 @@ generate_mixing_default <- function(package_name = "statCognition",
   })
   names(lis) <- fun
 
-  structure(lis, class = "mixing_list")
+  structure(lis, class = class_name)
 }

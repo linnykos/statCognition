@@ -1,30 +1,37 @@
 #' Missing value treatment via removal
 #'
 #' @param mat matrix
+#' @param pheno data frame
 #' @param ... not used
 #'
 #' @return matrix
 #' @export
-MV_remove <- function(mat, ...){
+MV_remove <- function(mat, pheno = NA, ...){
   idx <- apply(mat, 1, function(x){ifelse(any(is.na(x)), FALSE, TRUE)})
-  mat[idx,,drop = F]
+  mat <- mat[idx,,drop = F]
+
+  if(!any(is.na(pheno))){
+    pheno <- pheno[idx,,drop = F]
+  }
+  list(mat = mat, pheno = pheno)
 }
 
 #' Missing value treatment via maximum likelihood
 #'
 #' @param mat matrix
+#' @param pheno data frame
 #' @param shrinkage amount of regularization to covariance matrix
 #' @param ... not used
 #'
 #' @return matrix
 #' @export
-MV_maximum_likelihood <- function(mat, shrinkage = 0.1, ...){
+MV_maximum_likelihood <- function(mat, pheno = NA, shrinkage = 0.1, ...){
   idx <- apply(mat, 1, function(x){ifelse(any(is.na(x)), FALSE, TRUE)})
   mu <- colMeans(mat[idx,])
   Sigma <- stats::cov(mat[idx,])
   Sigma <- Sigma + shrinkage*diag(ncol(mat))
 
-  t(apply(mat, 1, function(x){
+  mat <- t(apply(mat, 1, function(x){
     bool <- is.na(x)
     if(all(!bool)) return(x)
 
@@ -33,17 +40,20 @@ MV_maximum_likelihood <- function(mat, shrinkage = 0.1, ...){
       (x[idx_known] - mu[idx_known])
     x
   }))
+
+  list(mat = mat, pheno = pheno)
 }
 
 #' Missing value treatment via matching
 #'
 #' @param mat matrix
+#' @param pheno data frame
 #' @param ... not used
 #'
 #' @return matrix
 #' @export
-MV_matching <- function(mat, ...){
-  t(apply(mat, 1, function(x){
+MV_matching <- function(mat, pheno = NA, ...){
+  mat <- t(apply(mat, 1, function(x){
     idx <- which(is.na(x))
     if(length(idx) == 0) return(x)
 
@@ -59,6 +69,8 @@ MV_matching <- function(mat, ...){
     x[idx] <- mat[selected_row, idx]
     x
   }))
+
+  list(mat = mat, pheno = pheno)
 }
 
 #' Missing value treatment via matrix completion
@@ -66,13 +78,16 @@ MV_matching <- function(mat, ...){
 #' Uses softimpute
 #'
 #' @param mat matrix
+#' @param pheno data frame
 #' @param rank rank of the latent factors
 #' @param lambda tuning parameter
 #' @param ... not used
 #'
 #' @return matrix
 #' @export
-MV_matrix_completion <- function(mat, rank = ceiling(ncol(mat)/2), lambda = 1, ...){
+MV_matrix_completion <- function(mat, pheno = NA, rank = ceiling(ncol(mat)/2), lambda = 1, ...){
   res <- softImpute::softImpute(mat, rank.max = rank, lambda = lambda, ...)
-  res$u %*% diag(res$d) %*% t(res$v)
+  mat <- res$u %*% diag(res$d) %*% t(res$v)
+
+  list(mat = mat, pheno = pheno)
 }

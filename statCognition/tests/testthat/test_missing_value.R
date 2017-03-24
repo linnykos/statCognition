@@ -8,7 +8,7 @@ test_that("MV_remove works", {
   mat[sample(1:30, 3)] <- NA
   res <- MV_remove(mat)
 
-  expect_true(is.matrix(res))
+  expect_true(is.list(res))
 })
 
 #####################
@@ -21,8 +21,8 @@ test_that("MV_maximum_likelihood works", {
   mat[sample(1:30, 3)] <- NA
   res <- MV_maximum_likelihood(mat)
 
-  expect_true(is.matrix(res))
-  expect_true(all(dim(res) == c(5,6)))
+  expect_true(is.list(res))
+  expect_true(all(dim(res$mat) == c(5,6)))
 })
 
 #####################
@@ -35,8 +35,8 @@ test_that("MV_matching works", {
   mat[sample(1:30, 3)] <- NA
   res <- MV_matching(mat)
 
-  expect_true(is.matrix(res))
-  expect_true(all(dim(res) == c(5,6)))
+  expect_true(is.list(res))
+  expect_true(all(dim(res$mat) == c(5,6)))
 })
 
 #####################
@@ -49,8 +49,8 @@ test_that("MV_matrix_completion works", {
   mat[sample(1:30, 3)] <- NA
   res <- MV_matrix_completion(mat)
 
-  expect_true(is.matrix(res))
-  expect_true(all(dim(res) == c(5,6)))
+  expect_true(is.list(res))
+  expect_true(all(dim(res$mat) == c(5,6)))
 })
 
 

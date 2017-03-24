@@ -6,7 +6,7 @@ test_that("SS_none works", {
   mat <- matrix(1:30, 5, 6)
   res <- SS_none(mat)
 
-  expect_true(is.matrix(res))
+  expect_true(is.list(res))
 })
 
 #####################
@@ -17,7 +17,7 @@ test_that("SS_three_sd works", {
   mat <- matrix(1:30, 5, 6)
   res <- SS_three_sd(mat)
 
-  expect_true(is.matrix(res))
+  expect_true(is.list(res))
 })
 
 #####################
@@ -28,7 +28,7 @@ test_that("SS_quantile works", {
   mat <- matrix(1:30, 5, 6)
   res <- SS_quantile(mat)
 
-  expect_true(is.matrix(res))
+  expect_true(is.list(res))
 })
 
 #####################
@@ -39,7 +39,7 @@ test_that("SS_neighborhood works", {
   mat <- matrix(1:30, 5, 6)
   res <- SS_neighborhood(mat)
 
-  expect_true(is.matrix(res))
+  expect_true(is.list(res))
 })
 
 

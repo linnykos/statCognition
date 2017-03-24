@@ -1,5 +1,5 @@
 criterionData_influential_points <- function(mat, num_pairs = 50, ...){
-  mat <- MV_remove(mat); d <- ncol(mat); pairs <- .generate_pairs(d, num_pairs)
+  mat <- MV_remove(mat)$mat; d <- ncol(mat); pairs <- .generate_pairs(d, num_pairs)
 
   outliers <- apply(pairs, 2, function(x){
     tmp_mat <- cbind(mat[,x]); colnames(tmp_mat) <- c("V1", "V2"); tmp_mat <- as.data.frame(tmp_mat)
@@ -11,7 +11,7 @@ criterionData_influential_points <- function(mat, num_pairs = 50, ...){
 }
 
 criterionData_nearest_neighbor <- function(mat, ...){
-  mat <- MV_remove(mat); mat <- scale(mat)
+  mat <- MV_remove(mat)$mat; mat <- scale(mat)
   dis <- as.matrix(stats::dist(mat))
   diag(dis) <- Inf
 
