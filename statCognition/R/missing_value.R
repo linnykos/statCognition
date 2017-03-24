@@ -1,8 +1,23 @@
+#' Missing value treatment via removal
+#'
+#' @param mat matrix
+#' @param ... not used
+#'
+#' @return matrix
+#' @export
 MV_remove <- function(mat, ...){
   idx <- apply(mat, 1, function(x){ifelse(any(is.na(x)), FALSE, TRUE)})
   mat[idx,,drop = F]
 }
 
+#' Missing value treatment via maximum likelihood
+#'
+#' @param mat matrix
+#' @param shrinkage amount of regularization to covariance matrix
+#' @param ... not used
+#'
+#' @return matrix
+#' @export
 MV_maximum_likelihood <- function(mat, shrinkage = 0.1, ...){
   idx <- apply(mat, 1, function(x){ifelse(any(is.na(x)), FALSE, TRUE)})
   mu <- colMeans(mat[idx,])
@@ -20,15 +35,43 @@ MV_maximum_likelihood <- function(mat, shrinkage = 0.1, ...){
   }))
 }
 
-MV_mean <- function(mat, ...){
-  apply(mat, 2, function(x){
-    mu <- mean(x, na.rm = T)
-    bool <- is.na(x)
-    x[bool] <- mu
+#' Missing value treatment via matching
+#'
+#' @param mat matrix
+#' @param ... not used
+#'
+#' @return matrix
+#' @export
+MV_matching <- function(mat, ...){
+  t(apply(mat, 1, function(x){
+    idx <- which(is.na(x))
+    if(length(idx) == 0) return(x)
+
+    elgible_rows <- which(apply(mat, 1, function(y){
+      ifelse(!any(is.na(y[idx])), TRUE, FALSE)
+    }))
+
+    vec <- sapply(elgible_rows, function(y){
+      .l2norm(y[-idx] - x[-idx])
+    })
+
+    selected_row <- elgible_rows[which.min(vec)]
+    x[idx] <- mat[selected_row, idx]
     x
-  })
+  }))
 }
 
+#' Missing value treatment via matrix completion
+#'
+#' Uses softimpute
+#'
+#' @param mat matrix
+#' @param rank rank of the latent factors
+#' @param lambda tuning parameter
+#' @param ... not used
+#'
+#' @return matrix
+#' @export
 MV_matrix_completion <- function(mat, rank = ceiling(ncol(mat)/2), lambda = 1, ...){
   res <- softImpute::softImpute(mat, rank.max = rank, lambda = lambda, ...)
   res$u %*% diag(res$d) %*% t(res$v)

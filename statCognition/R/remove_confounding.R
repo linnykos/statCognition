@@ -1,9 +1,25 @@
+#' Removing confounders via none
+#'
+#' @param mat matrix
+#' @param pheno data frame
+#' @param ... not used
+#'
+#' @return matrix
+#' @export
 RC_none <- function(mat, pheno, ...){
   stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
 
   mat
 }
 
+#' Removing confounders via linear regression
+#'
+#' @param mat matrix
+#' @param pheno data frame
+#' @param ... not used
+#'
+#' @return matrix
+#' @export
 RC_linear_regression <- function(mat, pheno, ...){
   stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
 
@@ -11,6 +27,14 @@ RC_linear_regression <- function(mat, pheno, ...){
   .regress_confounder(mat, pheno_mod)
 }
 
+#' Removing confounders via paired difference
+#'
+#' @param mat matrix
+#' @param pheno data frame
+#' @param ... not used
+#'
+#' @return matrix
+#' @export
 RC_pairing_difference <- function(mat, pheno, ...){
   stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
 
@@ -21,11 +45,19 @@ RC_pairing_difference <- function(mat, pheno, ...){
   .compute_difference_pairings(mat, pairings)
 }
 
+#' Removing confounders via random forest
+#'
+#' @param mat matrix
+#' @param pheno data frame
+#' @param ... not used
+#'
+#' @return matrix
+#' @export
 RC_random_forest_regression <- function(mat, pheno, ...){
   stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
 
   apply(mat, 2, function(x){
-    x - randomForest::randomForest(pheno, x)$predicted
+    x - randomForest::randomForest(pheno, x, ...)$predicted
   })
 }
 
