@@ -4,10 +4,12 @@
 \alias{SS_three_sd}
 \title{Sample selection via three standard deviations}
 \usage{
-SS_three_sd(mat, ...)
+SS_three_sd(mat, pheno = NA, ...)
 }
 \arguments{
 \item{mat}{matrix}
+
+\item{pheno}{data frame}
 
 \item{...}{not used}
 }

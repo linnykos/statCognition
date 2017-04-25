@@ -38,7 +38,7 @@ RC_linear_regression <- function(mat, pheno, ...){
 RC_pairing_difference <- function(mat, pheno, ...){
   stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
 
-  pheno_mod <- .adjust_data_frame_regression(pheno)
+  pheno_mod <- as.matrix(.adjust_data_frame_regression(pheno))
   dis <- as.matrix(stats::dist(scale(pheno_mod)))
   pairings <- .construct_pairings_confounding(dis)
 
@@ -69,7 +69,7 @@ RC_random_forest_regression <- function(mat, pheno, ...){
 .adjust_data_frame_regression <- function(dat){
   idx <- unique(.identify_factors(dat), which(sapply(dat, is.factor)))
   if(length(idx) > 0){
-    dat_mod <- dat[,-idx]
+    dat_mod <- as.matrix(dat[,-idx,drop = F])
 
     dat_mod <- cbind(dat_mod, .split_factors(dat, idx))
   } else {
@@ -82,7 +82,7 @@ RC_random_forest_regression <- function(mat, pheno, ...){
 .split_factors <- function(dat, idx){
   mat_all <- numeric(0)
   for(i in idx){
-    lev <- levels(as.factor(dat[,i]))
+    lev <- levels(as.factor(as.character(dat[,i])))
     mat <- sapply(1:(length(lev)-1), function(x){
       as.numeric(dat[,i] == lev[x])
     })

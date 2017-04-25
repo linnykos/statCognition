@@ -4,10 +4,12 @@
 \alias{MV_remove}
 \title{Missing value treatment via removal}
 \usage{
-MV_remove(mat, ...)
+MV_remove(mat, pheno = NA, ...)
 }
 \arguments{
 \item{mat}{matrix}
+
+\item{pheno}{data frame}
 
 \item{...}{not used}
 }

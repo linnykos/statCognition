@@ -1,13 +1,4 @@
-criterionData_evenness_missing <- function(mat, ...){
-  d <- ncol(mat)
-  vec <- apply(mat, 2, function(x){
-    sum(is.na(x))
-  })
-
-  .l2norm(vec - rep(1/d, d))
-}
-
-criterionData_residual_RF_LR <- function(mat, test_prop = 0.1, quant = 0.75, ...){
+criterion_data_residual_RF_LR <- function(mat, test_prop = 0.1, quant = 0.75, ...){
   mat <- MV_remove(mat)$mat
   n <- nrow(mat); d <- ncol(mat)
 

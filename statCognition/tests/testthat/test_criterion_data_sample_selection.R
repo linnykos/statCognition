@@ -1,12 +1,12 @@
 context("Test criterion data sample selection")
 
-## criterionData_influential_points is correct
+## criterion_data_influential_points is correct
 
-test_that("criterionData_influential_points works", {
+test_that("criterion_data_influential_points works", {
   set.seed(10)
   mat <- matrix(rnorm(150), 15, 10)
   mat[5,] <- 20
-  res <- criterionData_influential_points(mat, num_pairs = 10)
+  res <- criterion_data_influential_points(mat, num_pairs = 10)
 
   expect_true(res == 1)
 })
@@ -15,11 +15,11 @@ test_that("criterionData_influential_points works", {
 
 ## criterionData_nearest_neighbor is correct
 
-test_that("criterionData_nearest_neighbor works", {
+test_that("criterion_data_nearest_neighbor works", {
   set.seed(10)
   mat <- matrix(rnorm(150), 15, 10)
   mat[5,] <- 20
-  res <- criterionData_nearest_neighbor(mat)
+  res <- criterion_data_nearest_neighbor(mat)
 
   expect_true(res == 1)
 })

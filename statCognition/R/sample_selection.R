@@ -67,10 +67,10 @@ SS_quantile <- function(mat, pheno = NA, ...){
 SS_neighborhood <- function(mat, pheno = NA, quantile = 0.5, neighbor_threshold = 1, ...){
   mat_scale <- scale(mat)
   dis <- stats::dist(mat_scale)
-  radius <- stats::quantile(dis, probs = quantile)
-  nn <- dbscan::frNN(mat_scale, eps = radius)
+  rad <- stats::quantile(dis, probs = quantile)
+  nn <- dbscan::frNN(mat_scale, eps = rad)
 
-  bool <- sapply(nn, function(x){
+  bool <- sapply(nn$id, function(x){
     if(length(x) <= neighbor_threshold) FALSE else TRUE
   })
 

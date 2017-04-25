@@ -4,10 +4,12 @@
 \alias{MV_maximum_likelihood}
 \title{Missing value treatment via maximum likelihood}
 \usage{
-MV_maximum_likelihood(mat, shrinkage = 0.1, ...)
+MV_maximum_likelihood(mat, pheno = NA, shrinkage = 0.1, ...)
 }
 \arguments{
 \item{mat}{matrix}
+
+\item{pheno}{data frame}
 
 \item{shrinkage}{amount of regularization to covariance matrix}
 

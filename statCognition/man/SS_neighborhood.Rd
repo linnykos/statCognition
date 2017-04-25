@@ -4,10 +4,13 @@
 \alias{SS_neighborhood}
 \title{Sample selection via neighborhood}
 \usage{
-SS_neighborhood(mat, quantile = 0.5, neighbor_threshold = 1, ...)
+SS_neighborhood(mat, pheno = NA, quantile = 0.5, neighbor_threshold = 1,
+  ...)
 }
 \arguments{
 \item{mat}{matrix}
+
+\item{pheno}{data frame}
 
 \item{quantile}{quantile of all the pairwise distances to be the threshold}
 

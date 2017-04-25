@@ -4,10 +4,13 @@
 \alias{MV_matrix_completion}
 \title{Missing value treatment via matrix completion}
 \usage{
-MV_matrix_completion(mat, rank = ceiling(ncol(mat)/2), lambda = 1, ...)
+MV_matrix_completion(mat, pheno = NA, rank = ceiling(ncol(mat)/2),
+  lambda = 1, ...)
 }
 \arguments{
 \item{mat}{matrix}
+
+\item{pheno}{data frame}
 
 \item{rank}{rank of the latent factors}
 

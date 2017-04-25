@@ -4,10 +4,12 @@
 \alias{MV_matching}
 \title{Missing value treatment via matching}
 \usage{
-MV_matching(mat, ...)
+MV_matching(mat, pheno = NA, ...)
 }
 \arguments{
 \item{mat}{matrix}
+
+\item{pheno}{data frame}
 
 \item{...}{not used}
 }

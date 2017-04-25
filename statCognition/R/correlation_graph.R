@@ -87,6 +87,7 @@ CG_discrete_mutual_information <- function(mat, threshold = 0.7, edge_count = NA
 
   cor_mat[abs(cor_mat)>=threshold] <- 1
   cor_mat[abs(cor_mat)<=threshold] <- 0
+  diag(cor_mat) <- 0
 
   cor_mat
 }

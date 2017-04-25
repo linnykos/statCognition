@@ -4,10 +4,12 @@
 \alias{SS_quantile}
 \title{Sample selection via min/max removal}
 \usage{
-SS_quantile(mat, ...)
+SS_quantile(mat, pheno = NA, ...)
 }
 \arguments{
 \item{mat}{matrix}
+
+\item{pheno}{data frame}
 
 \item{...}{not used}
 }
