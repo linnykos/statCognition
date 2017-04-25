@@ -1,4 +1,4 @@
-criterion_data_monotonicity_pairs <- function(mat, num_pairs = 50, num_breakpoints = 5, ...){
+state_data_monotonicity_pairs <- function(mat, num_pairs = 50, num_breakpoints = 5, ...){
   mat <- MV_remove(mat)$mat; d <- ncol(mat); pairs <- .generate_pairs(d, num_pairs)
 
   vec <- apply(pairs, 2, function(x){

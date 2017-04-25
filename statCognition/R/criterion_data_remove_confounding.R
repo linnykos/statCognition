@@ -1,4 +1,4 @@
-criterion_data_pheno_residual_RF_LR <- function(mat, pheno, test_prop = 0.1, quant = 0.75, ...){
+state_data_pheno_residual_RF_LR <- function(mat, pheno, test_prop = 0.1, quant = 0.75, ...){
   res <- .MV_remove_with_pheno(mat, pheno); mat <- res$mat; pheno <- res$pheno
   n <- nrow(mat); d <- ncol(mat)
 
@@ -23,7 +23,7 @@ criterion_data_pheno_residual_RF_LR <- function(mat, pheno, test_prop = 0.1, qua
   as.numeric(stats::quantile(vec, prob = quant))
 }
 
-criterion_data_pheno_MI <- function(mat, pheno, numBins = 4, ...){
+state_data_pheno_MI <- function(mat, pheno, numBins = 4, ...){
   res <- .MV_remove_with_pheno(mat, pheno); mat <- res$mat; pheno <- res$pheno
   n <- nrow(mat); d <- ncol(mat)
 

@@ -1,4 +1,7 @@
-criterion_extract_data_default <- function(mat, pheno, ...){
-  clist <- .grab_package_contents("criterion_data", "criterion_data_list")
-  sapply(1:length(clist), function(x){clist[[x]](mat, pheno = pheno, ...)})
+cognition_state <- function(){
+  .grab_package_contents("^state_data", "state_list")
+}
+
+.apply_cognition_state <- function(state_list, mat, pheno, ...){
+  sapply(1:length(state_list), function(x){state_list[[x]](mat, pheno = pheno, ...)})
 }
