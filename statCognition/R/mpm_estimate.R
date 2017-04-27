@@ -71,7 +71,7 @@
 .form_monotonic_constraints <- function(n){
   t(sapply(1:(n-1), function(x){
     vec <- rep(0, n)
-    vec[c(x,x+1)] <- c(-1,1)
+    vec[c(x,x+1)] <- c(1,-1)
     vec
   }))
 }

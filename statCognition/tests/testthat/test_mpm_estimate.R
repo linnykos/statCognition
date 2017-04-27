@@ -73,7 +73,7 @@ test_that(".form_monotonic_constraints works", {
   expect_true(all(dim(res) == c(4,5)))
   for(i in 1:4){
     vec <- rep(0,5)
-    vec[c(i,i+1)] <- c(-1,1)
+    vec[c(i,i+1)] <- c(1,-1)
     expect_true(all(res[i,] == vec))
   }
 })
@@ -147,7 +147,7 @@ test_that(".form_lp_mpm returns the right values for a base case", {
     expect_true(all(res$constraint_mat[i,] == vec))
   }
   for(i in 7:(6+29)){
-    vec <- rep(0, n); vec[c(i-6,i-5)] <- c(-1,1)
+    vec <- rep(0, n); vec[c(i-6,i-5)] <- c(1,-1)
     expect_true(all(res$constraint_mat[i,] == vec))
   }
   expect_true(all(res$constraint_mat[6+29+1,] == c(rep(0, 29), 1)))
@@ -160,7 +160,7 @@ test_that(".form_lp_mpm returns the right values for a base case", {
 ## .estimate_mpm is correct
 
 test_that(".estimate_mpm works", {
-  mat <- matrix(1:30,6,5); idx <- rep(3,6)
+  mat <- matrix(1:10,2,5); idx <- rep(3,2)
   res <- .estimate_mpm(mat, idx)
 
   expect_true(class(res) == "mpm")
