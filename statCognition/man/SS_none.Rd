@@ -14,7 +14,7 @@ SS_none(mat, pheno = NA, ...)
 \item{...}{not used}
 }
 \value{
-matrix
+list containing the modified \code{mat} and \code{pheno}
 }
 \description{
 Sample selection via all

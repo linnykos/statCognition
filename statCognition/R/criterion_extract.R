@@ -1,5 +1,5 @@
 cognition_state <- function(){
-  .grab_package_contents("^state_data", "state_list")
+  .grab_package_contents("state_data", "state_list")
 }
 
 .apply_cognition_state <- function(state_list, mat, pheno, ...){

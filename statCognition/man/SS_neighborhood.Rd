@@ -19,7 +19,7 @@ SS_neighborhood(mat, pheno = NA, quantile = 0.5, neighbor_threshold = 1,
 \item{...}{not used}
 }
 \value{
-matrix
+list containing the modified \code{mat} and \code{pheno}
 }
 \description{
 Sample selection via neighborhood

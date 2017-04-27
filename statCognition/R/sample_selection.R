@@ -4,7 +4,7 @@
 #' @param pheno data frame
 #' @param ... not used
 #'
-#' @return matrix
+#' @return list containing the modified \code{mat} and \code{pheno}
 #' @export
 SS_none <- function(mat, pheno = NA, ...){
   list(mat = mat, pheno = pheno)
@@ -16,7 +16,7 @@ SS_none <- function(mat, pheno = NA, ...){
 #' @param pheno data frame
 #' @param ... not used
 #'
-#' @return matrix
+#' @return list containing the modified \code{mat} and \code{pheno}
 #' @export
 SS_three_sd <- function(mat, pheno = NA, ...){
   idx <- apply(mat, 2, function(x){
@@ -38,7 +38,7 @@ SS_three_sd <- function(mat, pheno = NA, ...){
 #' @param pheno data frame
 #' @param ... not used
 #'
-#' @return matrix
+#' @return list containing the modified \code{mat} and \code{pheno}
 #' @export
 SS_quantile <- function(mat, pheno = NA, ...){
   idx <- apply(mat, 2, function(x){
@@ -62,7 +62,7 @@ SS_quantile <- function(mat, pheno = NA, ...){
 #' @param neighbor_threshold how many neighbors or fewer needed to be considered outlier
 #' @param ... not used
 #'
-#' @return matrix
+#' @return list containing the modified \code{mat} and \code{pheno}
 #' @export
 SS_neighborhood <- function(mat, pheno = NA, quantile = 0.5, neighbor_threshold = 1, ...){
   mat_scale <- scale(mat)
