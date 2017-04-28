@@ -7,19 +7,18 @@
   #sort each row first
   res <- .sort_matrix(mat, idx); mat <- res$mat; idx <- res$idx
 
-  #sort all the rows together
-  vec <- sort(as.numeric(mat), decreasing = F)
+  #assign values to each row of matrix
+  val <- t(apply(cbind(mat, idx), 1, .assign_values_to_mpm))
 
-  #hashtable
-  htable <- hash::hash(keys = as.character(vec), values = 1:length(vec))
+  #remove values
+  res <- .remove_zero_values(mat, idx, val)
+  x <- res$x; y <- res$y
 
-  #form LP
-  res <- .form_lp_mpm(mat, idx, htable, length(vec))
-  c_mat <- res$constraint_mat; c_vec <- res$constraint_vec; obj_vec <- res$obj_vec
-  res <- lpSolve::lp("max", obj_vec, c_mat, rep("<=", nrow(c_mat)), c_vec)
+  #fit isotonic regression
+  res <- stats::isoreg(x = x, y = y)
 
   #output
-  .monotone_piecewise_marginal(vec, res$solution)
+  .monotone_piecewise_marginal(x, res$yf)
 }
 
 #sorts rows of a matrix and updates idx appropriately
@@ -33,65 +32,31 @@
   list(mat = mat, idx = idx)
 }
 
-.form_lp_mpm <- function(mat, idx, htable, n, tol = 0.2){
-  lis_const_mat <- vector("list", nrow(mat) + 3)
+#last value is the idx
+.assign_values_to_mpm <- function(vec){
+  idx <- vec[length(vec)]; vec <- vec[-length(vec)]; n <- length(vec)
+  val <- rep(0, n)
 
-  tmp <- cbind(mat, idx); colnames(tmp) = 1:ncol(tmp)
-  lis_const_mat[1:nrow(mat)] <- plyr::alply(tmp, 1, .form_lp_constraint_byrow, htable, n)
-  lis_const_mat[[nrow(mat) + 1]] <- .form_monotonic_constraints(n)
-  lis_const_mat[[nrow(mat) + 2]] <- .form_bounded_above_constraint(n)
-  lis_const_mat[[nrow(mat) + 3]] <- .form_bounded_below_constraint(n)
-
-  constraint_mat <- do.call(rbind, lis_const_mat)
-  constraint_vec <- c(rep(tol, nrow(constraint_mat) - (n-1) - 2),
-                      rep(0, n-1), 1, 0)
-
-  obj_vec <- .form_lp_obj(mat, idx, htable, n)
-
-  list(constraint_mat = constraint_mat, constraint_vec = constraint_vec,
-       obj_vec = obj_vec)
+  val[idx:n] <- (idx-1)/(n-1)
+  val
 }
 
-#last element is the idx
-.form_lp_constraint_byrow <- function(val, htable, n){
-  idx <- val[length(val)]; val <- val[-length(val)]; m <- length(val)
-  stopifnot(idx %% 1 == 0, idx <= m, idx >= 1)
-  stopifnot(all(val == sort(val, decreasing = F)))
+#removes zeros that come after (i.e., larger) the smallest accept value
+.remove_zero_values <- function(mat, idx, val){
+  vec_mat <- as.numeric(mat)
+  vec_val <- as.numeric(val)
 
-  if(idx == m) return(numeric(0))
-  position_1 <- htable[[as.character(val[idx])]]
-  position_2 <- htable[[as.character(val[m])]]
+  vec_val <- vec_val[order(vec_mat)]; vec_mat <- sort(vec_mat)
 
-  vec <- rep(0, n)
-  vec[c(position_1, position_2)] <- c(-1,1)
+  vec_selected <- sapply(1:nrow(mat), function(x){mat[x,idx[x]]})
+  idx_rejected <- which(vec_val == 0); vec_rejected <- vec_mat[idx_rejected]
+  idx_remove <- which(vec_rejected >= min(vec_selected))
 
-  vec
-}
-
-.form_monotonic_constraints <- function(n){
-  t(sapply(1:(n-1), function(x){
-    vec <- rep(0, n)
-    vec[c(x,x+1)] <- c(1,-1)
-    vec
-  }))
-}
-
-.form_bounded_above_constraint <- function(n){
-  vec <- rep(0, n); vec[n] <- 1; vec
-}
-
-.form_bounded_below_constraint <- function(n){
-  vec <- rep(0, n); vec[1] <- -1; vec
-}
-
-.form_lp_obj <- function(mat, idx, htable, n){
-  vec <- rep(0, n)
-  for(i in 1:nrow(mat)){
-    if(idx[i] == 1) next()
-    position_1 <- htable[[as.character(mat[i, idx[i]])]]
-    position_2 <- htable[[as.character(mat[i, idx[i] - 1])]]
-    vec[c(position_1, position_2)] <- c(1, -1)
+  if(length(idx_remove) > 0){
+    vec_val <- vec_val[-idx_rejected[idx_remove]]
+    vec_mat <- vec_mat[-idx_rejected[idx_remove]]
   }
 
-  vec
+  list(x = vec_mat, y = vec_val)
 }
+
