@@ -17,7 +17,7 @@
   #fit isotonic regression
   res <- stats::isoreg(x = x, y = y)
 
-  #output
+#output
   .monotone_piecewise_marginal(x, res$yf)
 }
 
