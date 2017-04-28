@@ -28,6 +28,40 @@ test_that(".sort_matrix properly updates the idx", {
   }
 })
 
+#################################
+
+## .assign_values_to_mpm is correct
+
+test_that(".assign_values_to_mpm works", {
+  res <- .assign_values_to_mpm(c(5:9, 3))
+  expect_true(all(res == c(0,0,2/4,2/4,2/4)))
+})
+
+##################################
+
+## .remove_zero_values is correct
+
+test_that(".remove_zero_values works", {
+  mat <- matrix(1:10,2,5); idx <- c(2,4)
+  val <- matrix(c(0, rep(1/4, 4), rep(0,3), rep(3/4, 2)), 2, 5, byrow = T)
+
+  res <- .remove_zero_values(mat, idx, val)
+
+  expect_true(length(res) == 2)
+  expect_true(is.list(res))
+  expect_true(all(sapply(res, is.numeric)))
+})
+
+test_that(".remove_zero_values returns the right values in a simple case", {
+  mat <- matrix(1:10,2,5); idx <- c(2,4)
+  val <- matrix(c(0, rep(1/4, 4), rep(0,3), rep(3/4, 2)), 2, 5, byrow = T)
+
+  res <- .remove_zero_values(mat, idx, val)
+
+  expect_true(all(res$x == c(1,2,3,5,7,8,9,10)))
+  expect_true(all(res$y == c(0,0,1/4,1/4,1/4,3/4,1/4,3/4)))
+})
+
 ##################################
 
 ## .estimate_mpm is correct
