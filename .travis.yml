@@ -14,9 +14,6 @@ r_binary_packages:
     - randomForest
     - huge
     - genlasso
-    - hash
-    - lpSolve
-    - plyr
 
 after_success:
   - Rscript -e 'library(covr); codecov()'

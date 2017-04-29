@@ -18,7 +18,7 @@
   res <- stats::isoreg(x = x, y = y)
 
 #output
-  .monotone_piecewise_marginal(x, res$yf)
+  .monotone_piecewise_marginal(x, res$yf, data = y)
 }
 
 #sorts rows of a matrix and updates idx appropriately
