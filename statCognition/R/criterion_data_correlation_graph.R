@@ -1,3 +1,12 @@
+#' State feature: monotonic pairs
+#'
+#' @param mat data matrix
+#' @param num_pairs number of pairs of variables
+#' @param num_breakpoints number of breakpoints to estimate
+#' @param ... not used
+#'
+#' @return value
+#' @export
 state_data_monotonicity_pairs <- function(mat, num_pairs = 50, num_breakpoints = 5, ...){
   mat <- MV_remove(mat)$mat; d <- ncol(mat); pairs <- .generate_pairs(d, num_pairs)
 

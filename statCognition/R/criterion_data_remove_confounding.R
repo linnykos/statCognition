@@ -1,3 +1,13 @@
+#' State feature: Phenotype residuals
+#'
+#' @param mat data matrix
+#' @param pheno data frame phenotypes
+#' @param test_prop proportion of values left as test sample
+#' @param quant quantile of the difference in residuals
+#' @param ... not used
+#'
+#' @return value
+#' @export
 state_data_pheno_residual_RF_LR <- function(mat, pheno, test_prop = 0.1, quant = 0.75, ...){
   res <- .MV_remove_with_pheno(mat, pheno); mat <- res$mat; pheno <- res$pheno
   n <- nrow(mat); d <- ncol(mat)
@@ -23,6 +33,15 @@ state_data_pheno_residual_RF_LR <- function(mat, pheno, test_prop = 0.1, quant =
   as.numeric(stats::quantile(vec, prob = quant))
 }
 
+#' State feature: Phenotype mutual information
+#'
+#' @param mat data matrix
+#' @param pheno data frame phenotype
+#' @param numBins number of discretized bins
+#' @param ... not used
+#'
+#' @return value
+#' @export
 state_data_pheno_MI <- function(mat, pheno, numBins = 4, ...){
   res <- .MV_remove_with_pheno(mat, pheno); mat <- res$mat; pheno <- res$pheno
   n <- nrow(mat); d <- ncol(mat)

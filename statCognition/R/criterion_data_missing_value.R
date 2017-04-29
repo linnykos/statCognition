@@ -1,3 +1,14 @@
+#' State feature: residuals between random forest and linear regression
+#'
+#' Does prediction of all d variables
+#'
+#' @param mat data matrix
+#' @param test_prop proportion of values left as test sample
+#' @param quant quantile of the difference in residuals
+#' @param ... not used
+#'
+#' @return value
+#' @export
 state_data_residual_RF_LR <- function(mat, test_prop = 0.1, quant = 0.75, ...){
   mat <- MV_remove(mat)$mat
   n <- nrow(mat); d <- ncol(mat)

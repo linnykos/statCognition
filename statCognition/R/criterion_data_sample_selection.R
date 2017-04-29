@@ -1,3 +1,11 @@
+#' State feature: outliers based on influential points
+#'
+#' @param mat data matrix
+#' @param num_pairs number of pairs of variables
+#' @param ... not used
+#'
+#' @return value
+#' @export
 state_data_influential_points <- function(mat, num_pairs = 50, ...){
   mat <- MV_remove(mat)$mat; d <- ncol(mat); pairs <- .generate_pairs(d, num_pairs)
 
@@ -10,6 +18,13 @@ state_data_influential_points <- function(mat, num_pairs = 50, ...){
   length(unique(as.numeric(unlist(outliers))))
 }
 
+#' State feature: outliers based on nearest neighbor distance
+#'
+#' @param mat data matrix
+#' @param ... not used
+#'
+#' @return value
+#' @export
 state_data_nearest_neighbor <- function(mat, ...){
   mat <- MV_remove(mat)$mat; mat <- scale(mat)
   dis <- as.matrix(stats::dist(mat))
@@ -19,7 +34,7 @@ state_data_nearest_neighbor <- function(mat, ...){
     min(dis[x,])
   })
 
-iqr <- stats::IQR(vec); mid <- stats::median(vec)
+  iqr <- stats::IQR(vec); mid <- stats::median(vec)
   sum(sapply(vec, function(x){
     ifelse(x >= mid + 1.5*iqr | x <= mid - 1.5*iqr, TRUE, FALSE)
   }))
