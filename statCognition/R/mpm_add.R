@@ -17,7 +17,7 @@
 
   vec1 <- rep(0, length(breakpoints)); vec2 <- rep(0, length(breakpoints))
 
-  idx1 <- which(breakpoints %in% obj1$breakpoints)
+  idx1 <- intersect(which(breakpoints %in% obj1$breakpoints), which(!duplicated(breakpoints)))
   vec1[idx1] <- obj1$values
   vec2[-idx1] <- obj2$values
 
