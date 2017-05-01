@@ -41,3 +41,27 @@ test_that(".monotone_piecewise_joint works", {
   expect_true(unique(sapply(res, class)) == "mpm")
 })
 
+##################
+
+## .find_breakpoints is correct
+
+test_that(".find_breakpoints finds the correct breakpoints", {
+  vec <- c(1,1,1,2,2,2,2,3,3,3,5,5,5,6,7,9,9,10)
+  res <- .find_breakpoints(vec)
+
+  expect_true(all(res == c(4,8,11,14,15,16,18)))
+})
+
+################
+
+## .remove_duplicates is correct
+
+test_that(".remove_duplicates removes the correct points", {
+  breakpoints <- c(0,1,1,1,2,2,2,2,3,3,3,5,5,5,6,7,9,9,10)
+  values <- 0:18
+
+  res <- .remove_duplicates(breakpoints, values)
+
+  expect_true(all(res$breakpoints == c(0,1,2,3,5,6,7,9,10)))
+  expect_true(all(res$values == c(0,3,7,10,13,14,15,17,18)))
+})

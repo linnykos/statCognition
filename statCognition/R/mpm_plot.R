@@ -17,8 +17,3 @@ plot.mpm <- function(x, line_col = 2, plot_data = T, ...){
   invisible()
 }
 
-#defined as right breakpoint, i.e., c(1,1,2) has a breakpoint at 3
-.find_breakpoints <- function(val, tol = 1e-4){
-  idx <- which(abs(diff(val)) >= tol)
-  if(length(idx) > 0) return(idx + 1) else return(1)
-}
