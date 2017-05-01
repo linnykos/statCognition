@@ -16,3 +16,22 @@ test_that(".add_mpj works", {
   expect_true(all(res[[2]]$breakpoints == c(2,4,6,8)))
   expect_true(all(res[[2]]$values == c(20,22,24,26)))
 })
+
+#####################
+
+## .estimate_mpj is correct
+
+test_that(".estimate_mpj works", {
+  mat_lis <- list(matrix(1:10,2,5), matrix(1:10,2,5))
+  idx_lis <- list(rep(3,2), rep(3,2))
+
+  res <- .estimate_mpj(mat_lis, idx_lis)
+
+  expect_true(class(res) == "mpj")
+  for(i in 1:2){
+    expect_true(length(res[[i]]$breakpoints) == length(res[[i]]$values))
+    expect_true(all(res[[i]]$breakpoints == sort(res[[i]]$breakpoints)))
+    expect_true(all(res[[i]]$values >= 0))
+    expect_true(all(res[[i]]$values <= 1))
+  }
+})
