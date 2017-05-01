@@ -58,7 +58,7 @@ test_that(".find_breakpoints finds the correct breakpoints", {
 
 test_that(".remove_duplicates removes the correct points", {
   breakpoints <- c(0,1,1,1,2,2,2,2,3,3,3,5,5,5,6,7,9,9,10)
-  values <- 0:18
+values <- 0:18
 
   res <- .remove_duplicates(breakpoints, values)
 
