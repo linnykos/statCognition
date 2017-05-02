@@ -25,3 +25,4 @@ for(i in 1:num_pages){
 j = 236
 plot(mat[,combn_mat[1,j]], mat[,combn_mat[2,j]], col = col_vec, pch = 16,
      xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+
