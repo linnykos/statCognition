@@ -15,9 +15,23 @@ test_that("generate_mixing_default works", {
   }
 })
 
-## generate_synthetic_data is correct
+######################
 
-test_that("generate_synthetic_data works", {
+## .generate_synthetic_data_from_seed is correct
+
+test_that(".generate_synthetic_data_from_seed works", {
   mat <- matrix(1:30, 5, 6)
-  mat2 <- generate_synthetic_data(mat)
+  init <- generate_synthetic_initializer()
+  mat2 <- .generate_synthetic_data_from_seed(mat, init)
+
+  expect_true(is.matrix(mat2))
+})
+
+##########################
+
+## generate_synthetic_initializer is correct
+
+test_that("generate_synthetic_initializer works", {
+  res <- generate_synthetic_initializer()
+  expect_true(class(res) == "generator_init")
 })

@@ -23,9 +23,9 @@ test_that(".add_mpj works", {
 
 test_that(".estimate_mpj works", {
   mat_lis <- list(matrix(1:10,2,5), matrix(1:10,2,5))
-  idx_lis <- list(rep(3,2), rep(3,2))
+  idx <- rep(3,2)
 
-  res <- .estimate_mpj(mat_lis, idx_lis)
+  res <- .estimate_mpj(mat_lis, idx)
 
   expect_true(class(res) == "mpj")
   for(i in 1:2){

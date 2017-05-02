@@ -10,11 +10,11 @@
   .mpj_from_mpm(lis)
 }
 
-.estimate_mpj <- function(mat_lis, idx_lis){
-  stopifnot(length(mat_lis) == length(idx_lis), is.list(mat_lis), is.list(idx_lis))
+.estimate_mpj <- function(mat_lis, idx){
+  stopifnot(is.list(mat_lis), is.numeric(idx), all(sapply(mat_lis, nrow) == length(idx)))
 
   n <- length(mat_lis)
-  lis <- lapply(1:n, function(x){.estimate_mpm(mat_lis[[x]], idx_lis[[x]])})
+  lis <- lapply(1:n, function(x){.estimate_mpm(mat_lis[[x]], idx)})
   names(lis) <- names(mat_lis)
 
   .mpj_from_mpm(lis)
