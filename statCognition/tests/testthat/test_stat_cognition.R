@@ -5,6 +5,7 @@ context("Test stat cognition system")
 test_that("stat_cognition works", {
   set.seed(10)
   mat <- matrix(rnorm(300), 50, 6)
+  mat[49:50,] <- 5
   age <- 1:50
   gender <- as.factor(c(rep("M", 25), rep("F", 25)))
   pheno <- data.frame(age, gender)
@@ -29,6 +30,32 @@ test_that("stat_cognition works", {
   expect_true(class(res) == "mpj_sequence")
   expect_true(length(res) == 2)
   expect_true(all(sapply(res, class) == "mpj"))
+})
+
+test_that("stat_cognition will work for outliers in a simple example", {
+  set.seed(10)
+  mat <- matrix(rnorm(300), 50, 6)
+  mat[49,] <- 5
+  mat[50,] <- -5
+  age <- 1:50
+  gender <- as.factor(c(rep("M", 25), rep("F", 25)))
+  pheno <- data.frame(age, gender)
+
+  action_list_list <- list(sample_selection =
+                             list(SS_none = statCognition::SS_none,
+                                  SS_three_sd = statCognition::SS_three_sd),
+                           remove_confounding =
+                             list(RC_none = statCognition::RC_none,
+                                  RC_linear_regression = statCognition::RC_linear_regression))
+  state_list <- list(influential_points = statCognition::state_data_influential_points,
+                     nearest_neighbor = statCognition::state_data_nearest_neighbor)
+
+  init <- stat_cognition_initializer(action_list_list, state_list)
+
+  seed_vec <- c(1,2)
+  response_vec <- rep(1, 2*2)
+
+  res <- stat_cognition(mat, pheno, init, seed_vec, response_vec)
 })
 
 #################################
