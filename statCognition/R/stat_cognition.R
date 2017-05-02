@@ -31,7 +31,7 @@ stat_cognition <- function(dat, pheno = NA, init, seed_vec){
       #record action
       response <- readline(paste0("Enter the action's number that you would like ",
                                   "to perform, among: ",
-                                  paste0(names(init$action_list_list[[j]], collapse = ", "))))
+                                  paste0(names(init$action_list_list[[j]]), collapse = ", ")))
       idx_lis[[j]][i] <- response
 
       #update the dat and pheno
@@ -58,16 +58,16 @@ stat_cognition <- function(dat, pheno = NA, init, seed_vec){
 }
 
 .apply_all_actions_return_states <- function(dat, pheno = NA, action_list, state_list){
-  t(sapply(1:length(action_list), function(x){
+  sapply(1:length(action_list), function(x){
     .apply_action_return_state(dat, pheno, action_list[[x]], state_list)
-  }))
+  })
 }
 
 .apply_action_return_state <- function(dat, pheno = NA, action, state_list){
   res <- action(dat, pheno = pheno)
   if(any(is.list(res))){
-    .apply_cognition_state(state_list, res$mat, res$pheno)
+    .apply_cognition_state(state_list, res$mat, pheno = res$pheno)
   } else {
-    .apply_cognition_state(state_list, res)
+    .apply_cognition_state(state_list, res, pheno = pheno)
   }
 }
