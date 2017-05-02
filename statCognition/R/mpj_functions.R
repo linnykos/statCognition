@@ -20,6 +20,9 @@
   .mpj_from_mpm(lis)
 }
 
-.evaluate_mpj <- function(){
+.evaluate_mpj <- function(obj, vec){
+  stopifnot(length(obj) == length(vec))
+  n <- length(vec)
 
+  sapply(1:n, function(x){.evaluate_mpm(obj[[x]], vec[x])})
 }

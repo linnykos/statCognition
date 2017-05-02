@@ -35,3 +35,18 @@ test_that(".estimate_mpj works", {
     expect_true(all(res[[i]]$values <= 1))
   }
 })
+
+#####################
+
+## .evaluate_mpj is correct
+
+test_that(".evaluate_mpj works", {
+  lis <- vector("list", 2)
+  lis[[1]] <- .monotone_piecewise_marginal(c(1,3,5,7), c(10,11,12,13))
+  lis[[2]] <- .monotone_piecewise_marginal(c(2,4,6,8), c(10,11,12,13))
+
+  obj <- .mpj_from_mpm(lis)
+  res <- .evaluate_mpj(obj, c(3,8))
+
+  expect_true(all(res == c(11,13)))
+})
