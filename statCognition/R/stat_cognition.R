@@ -44,6 +44,8 @@ stat_cognition <- function(dat, pheno = NA, init, seed_vec){
 }
 
 .initialize_cognition_setup <- function(num_step, num_state, num_dat, num_act_vec){
+  stopifnot(length(num_act_vec) == num_step)
+
   mat_lis_lis <- lapply(1:num_step, function(x){
     lapply(1:num_state, function(y){
       matrix(0, nrow = num_dat, ncol = num_act_vec[x])
