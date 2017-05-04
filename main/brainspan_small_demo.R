@@ -40,10 +40,10 @@ RC_list <- .grab_package_contents("RC", "RC_list")[c(1,3)]
 pearson <- function(mat){
   cor(mat[,1], mat[,2])
 }
-distance_cor <- function(mat){
-  energy::dcor(mat[,1], mat[,2])
+kendall <- function(mat){
+  cor(mat[,1], mat[,2], method = "kendall")
 }
-CG_list <- list(pearson = pearson, distance_cor = distance_cor)
+CG_list <- list(pearson = pearson, kendall = kendall)
 
 ######################
 methods_pairs <- expand.grid(1:2, 1:2, 1:2)
@@ -53,8 +53,9 @@ col_vec <- sapply(1:nrow(pheno), function(x){
   rgb((pheno[x,1])/107, 0, (107-pheno[x,1])/107)
 })
 
-png(paste0("../res/enumerate_example/base.png"), height = 3, width = 3,
-    units = "in", res = 300)
+png(paste0("../res/enumerate_example/base.png"), height = 1, width = 1.5,
+    units = "in", res = 700)
+par(mar = rep(0.1,4))
 plot(dat[,1], dat[,2], pch = 16, col = col_vec,
      xaxt = "n", yaxt = "n", xlab = "", ylab = "")
 graphics.off()
@@ -65,16 +66,18 @@ for(x in 1:nrow(methods_pairs)){
   vec <- as.numeric(methods_pairs[x,])
   res <- RC_list[[vec[1]]](dat, pheno)
 
-  png(paste0("../res/enumerate_example/row-", x, "-step-1.png"), height = 3, width = 3,
-      units = "in", res = 300)
+  png(paste0("../res/enumerate_example/row-", x, "-step-1.png"), height = 1, width = 1.5,
+      units = "in", res = 700)
+  par(mar = rep(0.1,4))
   plot(res[,1], res[,2], pch = 16, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
   graphics.off()
 
   xlim <- range(res[,1]); ylim <- range(res[,2])
   res <- SS_list[[vec[2]]](res, pheno)
 
-  png(paste0("../res/enumerate_example/row-", x, "-step-2.png"), height = 3, width = 3,
-      units = "in", res = 300)
+  png(paste0("../res/enumerate_example/row-", x, "-step-2.png"), height = 1, width = 1.5,
+      units = "in", res = 700)
+  par(mar = rep(0.1,4))
   plot(res$mat[,1], res$mat[,2], pch = 16, xaxt = "n", yaxt = "n", xlab = "", ylab = "",
        xlim = xlim, ylim = ylim)
   graphics.off()
