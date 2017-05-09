@@ -34,3 +34,8 @@ is_valid.value <- function(obj, ...){
   TRUE
 }
 
+.num_states <- function(obj){
+  stopifnot(class(obj) == "value")
+  length(strsplit(hash::keys(obj$surface$hash)[[1]], split = "-")[[1]])
+}
+
