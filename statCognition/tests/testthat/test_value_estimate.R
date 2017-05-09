@@ -37,10 +37,10 @@ test_that(".update_hash works", {
 ## value_estimate is correct
 
 test_that("value_estimate works", {
-  contribution_l1 <- list(contribution(seq(1,10,3), 1:4),
-                          contribution(seq(3,15,5), 6:8))
-  contribution_l2 <- list(contribution(seq(11,20,3), 1:4),
-                          contribution(seq(13,25,5), 6:8))
+  contribution_l1 <- list(action1 = contribution(seq(1,10,3), c(10,1:3)),
+                          action2 = contribution(seq(3,15,5), 6:8))
+  contribution_l2 <- list(action1 = contribution(seq(11,20,3), c(10,1:3)),
+                          action2 = contribution(seq(13,25,5), 6:8))
   contribution_ll <- list(contribution_l1, contribution_l2)
 
   res <- value_estimate(contribution_ll)
