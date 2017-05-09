@@ -42,24 +42,22 @@ SS_neighborhood <- function(dat, quantile = 0.5, neighbor_threshold = 1, ...){
 #' too high of a Cook's distance
 #'
 #' @param dat data object
-#' @param pairs maximum number of pairs to look at
+#' @param multiplier multiplier of the IQR
 #' @param ... not used
 #'
 #' @return
 #' @export
 #'
 #' @examples
-SS_cook <- function(dat, pairs = 50, ...){
+SS_cook <- function(dat, multiplier = 2, ...){
   stopifnot("mat" %in% names(dat), class(dat) == "data")
 
-  d <- ncol(dat$mat)
-  pairs_mat <- utils::combn(d, 2); pairs_mat <- pairs_mat[,1:min(ncol(pairs_mat), pairs)]
+  d <- ncol(dat$mat); df <- as.data.frame(dat$mat); colnames(df) <- paste0("V", 1:d)
 
-  idx <- unique(unlist(apply(pairs_mat, 2, function(x){
-    tmp_mat <- dat$mat[,x]; colnames(tmp_mat) <- c("V1", "V2"); tmp_mat <- as.data.frame(tmp_mat)
-    res <- stats::lm(V1~V2, data = tmp_mat)
+  idx <- unique(unlist(sapply(1:d, function(x){
+    res <- stats::lm(paste0(colnames(df)[x],"~."), data = df)
     vec <- stats::cooks.distance(res)
-    cutoff <- 1.5*stats::IQR(vec) + stats::median(vec)
+    cutoff <- multiplier*stats::IQR(vec) + stats::median(vec)
     which(vec > cutoff)
   })))
 

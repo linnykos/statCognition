@@ -4,12 +4,12 @@
 \alias{SS_cook}
 \title{Sample selection via Cook's distance}
 \usage{
-SS_cook(dat, pairs = 50, ...)
+SS_cook(dat, multiplier = 2, ...)
 }
 \arguments{
 \item{dat}{data object}
 
-\item{pairs}{maximum number of pairs to look at}
+\item{multiplier}{multiplier of the IQR}
 
 \item{...}{not used}
 }
