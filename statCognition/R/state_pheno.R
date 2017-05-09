@@ -8,6 +8,7 @@
 #' @return value
 #' @export
 state_pheno_residual <- function(dat, test_prop = 0.1, quant = 0.75, ...){
+  stopifnot(c("mat", "pheno") %in% names(dat), class(dat) == "data")
   n <- nrow(dat$mat); d <- ncol(dat$mat)
 
   pheno_mod <- .adjust_data_frame_regression(dat$pheno)
