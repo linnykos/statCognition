@@ -75,3 +75,16 @@ test_that(".alternating_direction_sum works when monotonically decreasing once",
 
 #####################
 
+## .reorder_vector is correct
+
+test_that(".reorder_vector works", {
+  set.seed(10)
+  x <- sample(1:10)
+  y <- rnorm(10)
+  res <- .reorder_vector(x, y)
+
+  expect_true(all(res$vec1 == sort(x, decreasing = F)))
+  for(i in 1:10){
+    expect_true(res$vec2[which(res$vec1 == i)] == y[which(x == i)])
+  }
+})

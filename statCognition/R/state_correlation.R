@@ -15,12 +15,8 @@ state_monotone <- function(dat, num_pairs = 5, ...){
   d <- ncol(dat$mat); pairs <- .generate_pairs(d, num_pairs)
 
   vec <- apply(pairs, 2, function(x){
-    ord <- order(dat$mat[,x[2]], decreasing = F)
-    x1 <- dat$mat[,x[1]][ord]; x2 <- dat$mat[,x[2]][ord]
-    fit <- genlasso::fusedlasso1d(y = x1, pos = x2)
-    lambda <- .trend_filter_minlamda(fit)
-
-    coef_vec <- as.numeric(stats::coef(fit, lambda = lambda)$beta)
+    res <- .reorder_vector(dat$mat[,x[1]], dat$mat[,x[2]])
+    coef_vec <- .fused_lasso_cv(x = res$vec1, y = res$vec2)
     .alternating_direction_sum(coef_vec)/diff(range(coef_vec))
   })
 
@@ -73,10 +69,24 @@ state_linearity <- function(dat, test_prop = 0.1, quant = 0.75, num_pairs = 50, 
 }
 
 ###################
+.fused_lasso_cv <- function(x, y){
+  fit <- genlasso::fusedlasso1d(y = y, pos = x)
+  lambda <- .trend_filter_minlamda(fit)
+
+  coef_vec <- as.numeric(stats::coef(fit, lambda = lambda)$beta)
+}
+
+#reorder vec1 to be sorted and vec2 to maintain same relative position
+.reorder_vector <- function(vec1, vec2){
+  ord <- order(vec1, decreasing = F)
+  vec1 <- vec1[ord]; vec2 <- vec2[ord]
+  list(vec1 = vec1, vec2 = vec2)
+}
+
 #wrapper to ignore annoying cat statements
 .trend_filter_minlamda <- function(fit){
   cv <- utils::capture.output(genlasso::cv.trendfilter(fit, verbose = F))
-  idx <- grep("lambda.min", cv)
+  idx <- grep("lambda.1se", cv)
   as.numeric(strsplit(cv[idx+1], " ")[[1]][2])
 }
 
