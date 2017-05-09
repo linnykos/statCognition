@@ -30,3 +30,22 @@ test_that("get_primary works", {
 
   expect_true(all(res == mat))
 })
+
+###########################
+
+## .remove_idx is correct
+
+test_that(".remove_idx works", {
+  set.seed(10)
+  mat <- matrix(rnorm(30), 5, 6)
+  age <- 1:5
+  gender <- as.factor(c("M", "F", "M", "M", "F"))
+  pheno <- data.frame(age, gender)
+
+  dat <- data_object(list(mat = mat, pheno = pheno))
+
+  res <- .remove_idx(dat, c(1,5))
+
+  expect_true(all(res$mat == dat$mat[2:4,]))
+  expect_true(all(res$pheno == dat$pheno[2:4,]))
+})
