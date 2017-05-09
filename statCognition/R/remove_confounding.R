@@ -6,7 +6,9 @@
 #' @return matrix
 #' @export
 RC_none <- function(dat, ...){
-  dat
+  stopifnot("mat" %in% names(dat), class(dat) == "data")
+
+  data_object(list(mat = dat$mat))
 }
 
 #' Removing confounders via linear regression
