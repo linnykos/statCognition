@@ -4,12 +4,10 @@
 \alias{RC_pairing_difference}
 \title{Removing confounders via paired difference}
 \usage{
-RC_pairing_difference(mat, pheno, ...)
+RC_pairing_difference(dat, ...)
 }
 \arguments{
-\item{mat}{matrix}
-
-\item{pheno}{data frame}
+\item{dat}{data object}
 
 \item{...}{not used}
 }

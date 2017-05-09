@@ -3,7 +3,6 @@
 export(RC_linear_regression)
 export(RC_none)
 export(RC_pairing_difference)
-export(RC_random_forest_regression)
 export(SS_cook)
 export(SS_neighborhood)
 export(SS_none)

@@ -19,7 +19,7 @@ SS_none <- function(dat, ...){
 #' @return list containing the modified \code{mat} and \code{pheno}
 #' @export
 SS_neighborhood <- function(dat, quantile = 0.5, neighbor_threshold = 1, ...){
-  stopifnot("mat" %in% names(dat))
+  stopifnot("mat" %in% names(dat), class(dat) == "data")
 
   mat_scale <- scale(dat$mat)
   dis <- stats::dist(mat_scale)
@@ -50,7 +50,7 @@ SS_neighborhood <- function(dat, quantile = 0.5, neighbor_threshold = 1, ...){
 #'
 #' @examples
 SS_cook <- function(dat, pairs = 50, ...){
-  stopifnot("mat" %in% names(dat))
+  stopifnot("mat" %in% names(dat), class(dat) == "data")
 
   d <- ncol(dat$mat)
   pairs_mat <- utils::combn(d, 2); pairs_mat <- pairs_mat[,1:min(ncol(pairs_mat), pairs)]

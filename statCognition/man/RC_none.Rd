@@ -4,12 +4,10 @@
 \alias{RC_none}
 \title{Removing confounders via none}
 \usage{
-RC_none(mat, pheno, ...)
+RC_none(dat, ...)
 }
 \arguments{
-\item{mat}{matrix}
-
-\item{pheno}{data frame}
+\item{dat}{data object}
 
 \item{...}{not used}
 }

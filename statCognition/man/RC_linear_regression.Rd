@@ -4,12 +4,10 @@
 \alias{RC_linear_regression}
 \title{Removing confounders via linear regression}
 \usage{
-RC_linear_regression(mat, pheno, ...)
+RC_linear_regression(dat, ...)
 }
 \arguments{
-\item{mat}{matrix}
-
-\item{pheno}{data frame}
+\item{dat}{data object}
 
 \item{...}{not used}
 }

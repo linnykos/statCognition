@@ -1,90 +1,74 @@
 #' Removing confounders via none
 #'
-#' @param mat matrix
-#' @param pheno data frame
+#' @param dat data object
 #' @param ... not used
 #'
 #' @return matrix
 #' @export
-RC_none <- function(mat, pheno, ...){
-  stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
-
-  mat
+RC_none <- function(dat, ...){
+  dat
 }
 
 #' Removing confounders via linear regression
 #'
-#' @param mat matrix
-#' @param pheno data frame
+#' @param dat data object
 #' @param ... not used
 #'
 #' @return matrix
 #' @export
-RC_linear_regression <- function(mat, pheno, ...){
-  stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
+RC_linear_regression <- function(dat, ...){
+  stopifnot(c("mat", "pheno") %in% names(dat), class(dat) == "data")
 
-  pheno_mod <- .adjust_data_frame_regression(pheno)
-  .regress_confounder(mat, pheno_mod)
+  pheno_mod <- .adjust_data_frame_regression(dat$pheno)
+  mat <- .regress_confounder(dat$mat, pheno_mod)
+
+  data_object(list(mat = mat))
 }
 
 #' Removing confounders via paired difference
 #'
-#' @param mat matrix
-#' @param pheno data frame
+#' @param dat data object
 #' @param ... not used
 #'
 #' @return matrix
 #' @export
-RC_pairing_difference <- function(mat, pheno, ...){
-  stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
+RC_pairing_difference <- function(dat, ...){
+  stopifnot(c("mat", "pheno") %in% names(dat), class(dat) == "data")
 
-  pheno_mod <- as.matrix(.adjust_data_frame_regression(pheno))
+  pheno_mod <- as.matrix(.adjust_data_frame_regression(dat$pheno))
   dis <- as.matrix(stats::dist(scale(pheno_mod)))
   pairings <- .construct_pairings_confounding(dis)
 
-  .compute_difference_pairings(mat, pairings)
-}
+  mat <- .compute_difference_pairings(dat$mat, pairings)
 
-#' Removing confounders via random forest
-#'
-#' @param mat matrix
-#' @param pheno data frame
-#' @param ... not used
-#'
-#' @return matrix
-#' @export
-RC_random_forest_regression <- function(mat, pheno, ...){
-  stopifnot(nrow(mat) == nrow(pheno), is.matrix(mat), is.data.frame(pheno))
-
-  apply(mat, 2, function(x){
-    x - randomForest::randomForest(pheno, x, ...)$predicted
-  })
+  data_object(list(mat = mat))
 }
 
 ######
-.identify_factors <- function(dat){
-  which(apply(dat, 2, function(x){length(unique(x))}) == 2)
+#columns with only 2 variables are factors
+.identify_factors <- function(pheno){
+  which(apply(pheno, 2, function(x){length(unique(x))}) == 2)
 }
 
-.adjust_data_frame_regression <- function(dat){
-  idx <- unique(.identify_factors(dat), which(sapply(dat, is.factor)))
+.adjust_data_frame_regression <- function(pheno){
+  idx <- unique(.identify_factors(pheno), which(sapply(pheno, is.factor)))
   if(length(idx) > 0){
-    dat_mod <- as.matrix(dat[,-idx,drop = F])
+    pheno_mod <- as.matrix(pheno[,-idx,drop = F])
 
-    dat_mod <- cbind(dat_mod, .split_factors(dat, idx))
+    pheno_mod <- cbind(pheno_mod, .split_factors(pheno, idx))
   } else {
-    dat_mod <- dat
+    pheno_mod <- pheno
   }
 
-  as.data.frame(dat_mod)
+  as.data.frame(pheno_mod)
 }
 
-.split_factors <- function(dat, idx){
+.split_factors <- function(pheno, idx){
   mat_all <- numeric(0)
   for(i in idx){
-    lev <- levels(as.factor(as.character(dat[,i])))
+    lev <- levels(as.factor(as.character(pheno[,i])))
     mat <- sapply(1:(length(lev)-1), function(x){
-      as.numeric(dat[,i] == lev[x])
+      as.numeric(pheno[,i] == lev[x])
     })
 
     mat_all <- cbind(mat_all, mat)
