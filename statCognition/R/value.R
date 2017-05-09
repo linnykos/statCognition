@@ -28,6 +28,9 @@ is_valid.value <- function(obj, ...){
   stopifnot(all(sapply(obj$surface$block_list, class) == "numeric"))
   stopifnot(all(sapply(obj$surface$block_list, is.matrix) == FALSE))
 
+  action <- as.numeric(unlist(hash::values(obj$surface$hash)[2,]))
+  stopifnot(min(action) >= 1)
+
   TRUE
 }
 

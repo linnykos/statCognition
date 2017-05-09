@@ -2,7 +2,7 @@ value_estimate <- function(contribution_ll){
   stopifnot(class(contribution_ll) == "list")
   stopifnot(all(sapply(contribution_ll, class) == "list"))
   stopifnot(all(unlist(sapply(contribution_ll, function(x){sapply(x, class)})) == "contribution"))
-  stopifnot(unique(sapply(contribution_ll, length) == 1))
+  stopifnot(length(unique(sapply(contribution_ll, length))) == 1)
 
   #form all the table
   block_list <- lapply(contribution_ll, .form_block)
@@ -15,7 +15,7 @@ value_estimate <- function(contribution_ll){
   h <- hash::hash()
   apply(grid, 1, function(x){.update_hash(h, contribution_ll, block_list, x)})
 
-  h
+  value(list(hash = h, block_list = block_list))
 }
 
 #############################
