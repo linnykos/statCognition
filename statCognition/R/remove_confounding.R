@@ -47,11 +47,11 @@ RC_pairing_difference <- function(dat, ...){
 ######
 #columns with only 2 variables are factors
 .identify_factors <- function(pheno){
-  which(apply(pheno, 2, function(x){length(unique(x))}) == 2)
+  as.numeric(which(apply(pheno, 2, function(x){length(unique(x))}) == 2))
 }
 
 .adjust_data_frame_regression <- function(pheno){
-  idx <- unique(.identify_factors(pheno), which(sapply(pheno, is.factor)))
+  idx <- unique(c(.identify_factors(pheno), which(sapply(pheno, is.factor))))
   if(length(idx) > 0){
     pheno_mod <- as.matrix(pheno[,-idx,drop = F])
 
@@ -74,7 +74,7 @@ RC_pairing_difference <- function(dat, ...){
     mat_all <- cbind(mat_all, mat)
   }
 
-  mat_all
+  as.data.frame(mat_all)
 }
 
 .regress_confounder <- function(mat, dat){
