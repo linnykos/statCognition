@@ -52,6 +52,11 @@ test_that(".generate_pairs works", {
   expect_true(length(unique(vec)) == 100)
 })
 
+test_that(".generate_pairs works when d = 2",{
+  res <- .generate_pairs(2, 10)
+  expect_true(all(dim(res) == c(2,1)))
+})
+
 ######################
 
 ## .alternating_direction_sum is correct
@@ -88,3 +93,7 @@ test_that(".reorder_vector works", {
     expect_true(res$vec2[which(res$vec1 == i)] == y[which(x == i)])
   }
 })
+
+##################
+
+

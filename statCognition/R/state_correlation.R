@@ -104,5 +104,5 @@ state_linearity <- function(dat, test_prop = 0.1, quant = 0.75, num_pairs = 50, 
 
 .generate_pairs <- function(d, pairs){
   pairs_mat <- utils::combn(d, 2)
-  pairs_mat[,1:min(ncol(pairs_mat), pairs)]
+  pairs_mat[,1:min(ncol(pairs_mat), pairs),drop = F]
 }
