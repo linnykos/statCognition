@@ -16,7 +16,8 @@ Imports:
     randomForest,
     softImpute,
     huge,
-    genlasso
+    genlasso,
+    hash
 Suggests:
     testthat
 RoxygenNote: 6.0.1
