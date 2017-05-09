@@ -12,7 +12,7 @@ test_that("difference_states_indicator works", {
   dat_1 <- data_object(list(mat = mat, pheno = pheno))
   dat_2 <- data_object(list(mat = mat, pheno = pheno))
 
-  expect_true(difference_states_indicator(dat_1, dat_2) == 1)
+  expect_true(difference_states_indicator(dat_1, dat_2) == 0)
 })
 
 test_that("difference_states_indicator can return 0", {
@@ -26,7 +26,7 @@ test_that("difference_states_indicator can return 0", {
   dat_1 <- data_object(list(mat = mat, pheno = pheno))
   dat_2 <- data_object(list(mat = mat2, pheno = pheno))
 
-  expect_true(difference_states_indicator(dat_1, dat_2) == 0)
+  expect_true(difference_states_indicator(dat_1, dat_2) == 1)
 })
 
 ################

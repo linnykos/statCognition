@@ -4,12 +4,10 @@
 \alias{SS_none}
 \title{Sample selection via all}
 \usage{
-SS_none(mat, pheno = NA, ...)
+SS_none(dat, ...)
 }
 \arguments{
-\item{mat}{matrix}
-
-\item{pheno}{data frame}
+\item{dat}{data object}
 
 \item{...}{not used}
 }

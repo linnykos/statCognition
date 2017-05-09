@@ -1,71 +1,27 @@
 #' Sample selection via all
 #'
-#' @param mat matrix
-#' @param pheno data frame
+#' @param dat data object
 #' @param ... not used
 #'
 #' @return list containing the modified \code{mat} and \code{pheno}
 #' @export
-SS_none <- function(mat, pheno = NA, ...){
-  list(mat = mat, pheno = pheno)
-}
-
-#' Sample selection via three standard deviations
-#'
-#' @param mat matrix
-#' @param pheno data frame
-#' @param ... not used
-#'
-#' @return list containing the modified \code{mat} and \code{pheno}
-#' @export
-SS_three_sd <- function(mat, pheno = NA, ...){
-  idx <- apply(mat, 2, function(x){
-    c(which(x >= mean(x) + 3*stats::sd(x)), which(x <= mean(x) - 3*stats::sd(x)))
-  })
-  idx <- unique(as.vector(unlist(idx)))
-
-  if(length(idx) != 0){
-    mat <- mat[-idx,,drop = F]
-    if(!any(is.na(pheno))) pheno <- pheno[-idx,,drop = F]
-  }
-
-  list(mat = mat, pheno = pheno)
-}
-
-#' Sample selection via min/max removal
-#'
-#' @param mat matrix
-#' @param pheno data frame
-#' @param ... not used
-#'
-#' @return list containing the modified \code{mat} and \code{pheno}
-#' @export
-SS_quantile <- function(mat, pheno = NA, ...){
-  idx <- apply(mat, 2, function(x){
-    c(which.min(x), which.max(x))
-  })
-  idx <- unique(as.vector(unlist(idx)))
-
-  if(length(idx) != 0){
-    mat <- mat[-idx,,drop = F]
-    if(!any(is.na(pheno))) pheno <- pheno[-idx,,drop = F]
-  }
-
-  list(mat = mat, pheno = pheno)
+SS_none <- function(dat, ...){
+  dat
 }
 
 #' Sample selection via neighborhood
 #'
-#' @param mat matrix
-#' @param pheno data frame
+#' @param dat data object
 #' @param quantile quantile of all the pairwise distances to be the threshold
 #' @param neighbor_threshold how many neighbors or fewer needed to be considered outlier
 #' @param ... not used
 #'
 #' @return list containing the modified \code{mat} and \code{pheno}
 #' @export
-SS_neighborhood <- function(mat, pheno = NA, quantile = 0.5, neighbor_threshold = 1, ...){
-  mat_scale <- scale(mat)
+SS_neighborhood <- function(dat, quantile = 0.5, neighbor_threshold = 1, ...){
+  stopifnot("mat" %in% names(dat))
+
+  mat_scale <- scale(dat$mat)
   dis <- stats::dist(mat_scale)
   rad <- stats::quantile(dis, probs = quantile)
   nn <- dbscan::frNN(mat_scale, eps = rad)
@@ -74,8 +30,43 @@ SS_neighborhood <- function(mat, pheno = NA, quantile = 0.5, neighbor_threshold 
     if(length(x) <= neighbor_threshold) FALSE else TRUE
   })
 
-  mat <- mat[which(bool),,drop = F]
-  if(!any(is.na(pheno))) pheno <- pheno[which(bool),,drop = F]
+  dat$mat <- dat$mat[which(bool),,drop = F]
+  if("pheno" %in% names(dat)) dat$pheno <- dat$pheno[which(bool),,drop = F]
 
-  list(mat = mat, pheno = pheno)
+  dat
+}
+
+#' Sample selection via Cook's distance
+#'
+#' Applies many pairwise (simple) regression and removes points that have
+#' too high of a Cook's distance
+#'
+#' @param dat data object
+#' @param pairs maximum number of pairs to look at
+#' @param ... not used
+#'
+#' @return
+#' @export
+#'
+#' @examples
+SS_cook <- function(dat, pairs = 50, ...){
+  stopifnot("mat" %in% names(dat))
+
+  d <- ncol(dat$mat)
+  pairs_mat <- utils::combn(d, 2); pairs_mat <- pairs_mat[,1:min(ncol(pairs_mat), pairs)]
+
+  idx <- unique(unlist(apply(pairs_mat, 2, function(x){
+    tmp_mat <- dat$mat[,x]; colnames(tmp_mat) <- c("V1", "V2"); tmp_mat <- as.data.frame(tmp_mat)
+    res <- stats::lm(V1~V2, data = tmp_mat)
+    vec <- stats::cooks.distance(res)
+    cutoff <- 1.5*stats::IQR(vec) + stats::median(vec)
+    which(vec > cutoff)
+  })))
+
+  if(length(idx) != 0){
+    dat$mat <- dat$mat[-idx,,drop = F]
+    if("pheno" %in% names(dat)) dat$pheno <- dat$pheno[-idx,,drop = F]
+  }
+
+  dat
 }
