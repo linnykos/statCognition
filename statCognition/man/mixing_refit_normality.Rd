@@ -4,15 +4,17 @@
 \alias{mixing_refit_normality}
 \title{Mixing function: Refit from Gaussian distribution}
 \usage{
-mixing_refit_normality(mat, ...)
+mixing_refit_normality(dat, param1 = c(0, 1), ...)
 }
 \arguments{
-\item{mat}{data matrix}
+\item{dat}{data object}
+
+\item{param1}{parameter for percentage of rows to refit}
 
 \item{...}{not used}
 }
 \value{
-numeric matrix
+data object
 }
 \description{
 Mixing function: Refit from Gaussian distribution
