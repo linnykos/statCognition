@@ -27,7 +27,7 @@ test_that(".snippet works with more parentheses behind", {
 ## .synthetic_arg_grabber is correct
 
 test_that(".synthetic_arg_grabber works", {
-  func <- function(dat, param1 = c(1,2), param2 = c(0,1), ...){
+  func <- function(dat, param1 = c(1,2), param2 = c(0,.1), ...){
     dat
   }
 
@@ -36,5 +36,17 @@ test_that(".synthetic_arg_grabber works", {
   expect_true(is.list(res))
   expect_true(length(res) == 2)
   expect_true(all(res[[1]] == c(1,2)))
-  expect_true(all(res[[2]] == c(0,1)))
+  expect_true(all(res[[2]] == c(0,.1)))
+})
+
+test_that(".synthetic_arg_grabber works for only one argument", {
+  func <- function(dat, param1 = c(1e-5 , 20)){
+    dat
+  }
+
+  res <- .synthetic_arg_grabber(func)
+
+  expect_true(is.list(res))
+  expect_true(length(res) == 1)
+  expect_true(all(res[[1]] == c(1e-5,20)))
 })
