@@ -19,15 +19,18 @@
   res_ll
 }
 
-.store_state_action <- function(dat, action_list, state_list, state_list_future,
+#?? test state_list_func = na
+.store_state_action <- function(dat, action_list, state_list, state_list_future = NA,
                                 prev_dat, response, ...){
 
-  current <- .state_extract(dat, state_list)
+  current <- .state_extract(dat, state_list, prev_dat = prev_dat)
   names(current) <- names(state_list)
 
   future <- lapply(1:length(action_list), function(x){
     future_dat <- action_list[[x]](dat, ...)
-    .state_extract(future_dat, state_list_future, prev_dat = dat)
+    if(!any(is.na(state_list_future))) {
+      .state_extract(future_dat, state_list_future, prev_dat = dat)
+    } else { future_dat }
   })
   names(future) <- names(action_list)
 

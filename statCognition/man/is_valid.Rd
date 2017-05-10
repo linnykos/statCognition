@@ -8,8 +8,6 @@ is_valid(obj)
 }
 \arguments{
 \item{obj}{The object to check}
-
-\item{...}{not used}
 }
 \value{
 boolean

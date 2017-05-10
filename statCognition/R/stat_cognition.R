@@ -25,24 +25,25 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, ...){
       }
 
       #upmate dat
+      if(j != num_step) state_ll <- init$state_ll[[j+1]] else state_ll <- NA
       state_action_ll[[i]][[j]] <- .store_state_action(dat, init$action_ll[[j]],
-                                                       init$state_ll[[j]], init$state_ll[[j+1]],
-                                                       prev_dat, ...)
+                                                       init$state_ll[[j]], state_ll,
+                                                       prev_dat, response, ...)
       prev_dat <- dat
       dat <- init$action_ll[[j]][[response]](dat, ...)
     }
   }
 
-  .estimate_value_cognition(state_action_ll, init, seed_vec)
+  .estimate_value_cognition(state_action_ll, init)
 }
 
 #############
 
 # work backword, forming loc-idx for dimension-action, contribution_ll and
 ## value function for each step
-.estimate_value_cognition <- function(state_action_ll, init, seed_vec){
+.estimate_value_cognition <- function(state_action_ll, init){
 
-  num_step <- length(init$action_ll); num_mat <- length(seed_vec)
+  num_step <- length(init$action_ll); num_mat <- length(state_action_ll)
   num_act_vec <- sapply(init$action_ll, length)
   num_state_vec <- sapply(init$state_ll, length)
 
@@ -60,7 +61,7 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, ...){
 
       #transfer
       for(k in 1:num_state_vec[i]){ for(l in 1:num_act_vec[i]){
-          locidx_ll[[k]][[l]][j,] <- tmp[[k]][[l]][1,]
+          locidx_ll[[k]][[l]][j,] <- tmp[[k]][[l]]
         }}
     }
 

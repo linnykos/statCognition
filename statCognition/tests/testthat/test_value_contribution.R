@@ -20,6 +20,25 @@ test_that(".store_state_action works", {
   expect_true(all(names(res) == c("current", "future", "response")))
 })
 
+
+test_that(".store_state_action works without future states", {
+  set.seed(10)
+  vec1 <- stats::rnorm(50); vec2 <- c(stats::rnorm(48),10,-10)
+  dat <- data_object(list(mat = cbind(vec1, vec2)))
+
+  action_list <- list(SS_none = SS_none, SS_cook = SS_cook)
+  state_list <- list(state_variance = state_variance, state_interpoint = state_interpoint)
+  outcome_state <- SS_cook(dat)
+
+  res <- .store_state_action(dat, action_list, state_list, NA,
+                             prev_dat = dat, response = 1)
+
+  expect_true(is.list(res))
+  expect_true(class(res) == "state_action")
+  expect_true(all(names(res) == c("current", "future", "response")))
+})
+
+
 ########################
 
 ## is_valid.state_action is correct
