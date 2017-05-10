@@ -13,7 +13,7 @@ test_that("SS_none works", {
 
   res <- SS_none(dat)
 
-  expect_true(difference_states_indicator(dat, res) == 0)
+  expect_true(all(dat$mat == res$mat))
   expect_true(class(res) == "data")
 })
 

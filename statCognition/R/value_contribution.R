@@ -10,7 +10,7 @@
       idx <- diff_func(state_action$future[[y]],
                        state_action$future[[state_action$response]])
       loc <- state_action$current[x]
-      c(loc, idx+v)})
+      c(as.numeric(loc), idx+v)})
     names(res) <- names(state_action$future)
     res
   })
@@ -31,11 +31,20 @@
   })
   names(future) <- names(action_list)
 
-  structure(list(current = current, future = future, response = response),
+  res <- structure(list(current = current, future = future, response = response),
             class = "state_action")
+  is_valid(res)
+  res
 }
 
 .state_extract <- function(dat, state_list, ...){
   d <- length(state_list)
   sapply(1:d, function(x){state_list[[x]](dat, ...)})
+}
+
+is_valid.state_action <- function(obj){
+  stopifnot(length(obj) == 3, all(names(obj) == c("current", "future", "response")))
+  stopifnot(length(unique(sapply(obj$future, length))) == 1)
+
+  TRUE
 }
