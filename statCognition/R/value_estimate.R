@@ -20,10 +20,13 @@ value_estimate <- function(contribution_ll){
 
 #############################
 
-.form_block <- function(lis){
+.form_block <- function(lis, tol = 1e-4){
   stopifnot(all(sapply(lis, class) == "contribution"))
 
-  c(-Inf, sort(unlist(sapply(lis, function(x){x$breakpoints})), decreasing = F))
+  vec <- sort(unlist(sapply(lis, function(x){x$breakpoints})), decreasing = F)
+  vec <- unique(vec[c(1, which(abs(diff(vec)) > tol)+1)])
+
+  c(-Inf, vec)
 }
 
 .update_hash <- function(h, contribution_ll, block_list, vec){
