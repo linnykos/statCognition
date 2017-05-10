@@ -38,6 +38,32 @@ test_that(".store_state_action works without future states", {
   expect_true(all(names(res) == c("current", "future", "response")))
 })
 
+test_that(".store_state_action has future states reflect of next current states", {
+  #construct the 2 datasets
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(stats::rnorm(100), 50, 2)))
+
+  #set up actions
+  action_ll <- vector("list", 2)
+  action_ll[[1]] <- list(SS_none = SS_none, SS_cook = SS_cook)
+  action_ll[[2]] <- list(PD_pearson = PD_pearson, PD_energy = PD_energy)
+
+  #set up states
+  state_ll <- vector("list", 2)
+  state_ll[[1]] <- list(state_variance = state_variance, state_interpoint = state_interpoint)
+  state_ll[[2]] <- list(state_samples = state_samples, state_linearity = state_linearity)
+
+  #set up state_action
+  state_action_ll <- vector("list", 2)
+  state_action_ll[[1]][[1]] <- .store_state_action(dat, action_ll[[1]], state_ll[[1]],
+                                                   state_ll[[2]], dat, 1)
+  dat2 <- SS_none(dat)
+  state_action_ll[[1]][[2]] <- .store_state_action(dat2, action_ll[[2]], state_ll[[2]],
+                                                   NA, dat, 1)
+
+  expect_true(all(state_action_ll[[1]][[1]]$future$SS_none ==
+                    state_action_ll[[1]][[2]]$current))
+})
 
 ########################
 

@@ -42,7 +42,7 @@
 
 .state_extract <- function(dat, state_list, ...){
   d <- length(state_list)
-  sapply(1:d, function(x){state_list[[x]](dat, ...)})
+  sapply(1:d, function(x){set.seed(10); state_list[[x]](dat, ...)})
 }
 
 is_valid.state_action <- function(obj){
