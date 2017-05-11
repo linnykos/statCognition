@@ -179,10 +179,10 @@ generator_monotonic <- function(dat, param1 = c(0, 1), param2 = c(0,1), ...){
 #'
 #' @return data object
 #' @export
-generator_inflate_correlation <- function(dat, param1 = c(0, 10), param2 = c(0,1), ...){
+generator_inflate_correlation <- function(dat, param1 = c(0, 1), param2 = c(0,1), ...){
   stopifnot("mat" %in% names(dat))
 
-  n <- nrow(dat$mat); d <- ncol(dat$mat); param1 <- ceiling(param1)
+  n <- nrow(dat$mat); d <- ncol(dat$mat); param1 <- max(ceiling(param1), 1)
   idx_pairs <- matrix(sample(1:d, 2*param1, replace = T), param1, 2)
   row_idx <- sample(1:n, ceiling(max(2, param1*n)))
 
@@ -211,7 +211,7 @@ generator_cluster <- function(dat, param1 = c(0, 1), param2 = c(0,1),
   n <- nrow(dat$mat); d <- ncol(dat$mat)
   col_idx <- sample(1:d, ceiling(max(1, param1*d)))
   row_idx <- sample(1:n, ceiling(max(2, param2*n)))
-  param3 <- ceiling(param3)
+  param3 <- min(max(2, ceiling(param3)), length(row_idx) - 1)
 
   res <- stats::kmeans(dat$mat[row_idx, col_idx], param3)
 

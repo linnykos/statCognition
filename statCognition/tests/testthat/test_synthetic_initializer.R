@@ -56,3 +56,39 @@ test_that(".generate_parameter_values works with max", {
 
   expect_true(all(res >= res2))
 })
+
+######################
+
+## .apply_generator2dat is correct
+
+test_that(".apply_generator2dat works", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5)))
+  lis <- .synthetic_arg_grabber(generator_add_noise)
+  vec <- .generate_parameter_values(lis, min)
+
+  res <- .apply_generator2dat(dat, generator_add_noise, vec)
+  expect_true(all(dim(res) == c(6,5)))
+})
+
+test_that(".apply_generator2dat works with a generator w/ one parameter", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5)))
+  lis <- .synthetic_arg_grabber(generator_resample)
+  vec <- .generate_parameter_values(lis, min)
+
+  res <- .apply_generator2dat(dat, generator_resample, vec)
+  expect_true(all(dim(res) == c(6,5)))
+})
+
+######################
+
+## is_valid.synthetic_initializer is correct
+
+test_that("is_valid.synthetic_initializer works", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
+  init <- synthetic_initializer()
+
+  expect_true(is_valid(init, dat))
+})
