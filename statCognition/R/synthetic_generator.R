@@ -6,6 +6,7 @@ synthetic_generator <- function(dat, init){
   dat_synthetic <- .synthetic_generator_seed(dat, init, seed = seed)
 
   dat_synthetic$synthetic_seed <- seed
+
   dat_synthetic
 }
 
@@ -18,10 +19,11 @@ get_seed <- function(dat){
   }
 }
 
-.synthetic_generator_seed <- function(dat, init, lambda = 5, seed = 10){
+.synthetic_generator_seed <- function(dat, init, seed = 10){
   stopifnot(class(dat) == "data", class(init) == "synthetic_initializer")
 
   set.seed(seed)
+  lambda <- attr(init, "lambda"); if(is.null(lambda)) lambda <- 5
   iters <- stats::rpois(1, lambda); len <- length(init)
 
   for(i in 1:iters){

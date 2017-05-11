@@ -8,6 +8,8 @@ test_that("synthetic_initializer works", {
   expect_true(is.list(res))
   expect_true(class(res) == "synthetic_initializer")
   expect_true(length(res) >= 1)
+
+  expect_true(is.numeric(attr(res, "lambda")))
 })
 
 ############################

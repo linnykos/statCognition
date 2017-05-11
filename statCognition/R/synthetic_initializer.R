@@ -1,5 +1,11 @@
-synthetic_initializer <- function(func_list = .grab_package_contents("generator")){
-  structure(func_list, class = "synthetic_initializer")
+synthetic_initializer <- function(func_list = .grab_package_contents("generator"),
+                                  lambda = 5){
+  stopifnot(length(lambda) == 1, is.numeric(lambda), lambda %% 1 == 0, lambda > 0)
+
+  obj <- structure(func_list, class = "synthetic_initializer")
+  attr(obj, "lambda") <- lambda
+
+  obj
 }
 
 #' Checks synthetic_initializer object for validity
