@@ -27,7 +27,7 @@ get_seed <- function(dat){
   iters <- stats::rpois(1, lambda); len <- length(init)
 
   for(i in 1:iters){
-    set.seed(seed+i)
+    set.seed(seed*i+i)
     idx <- sample(1:len, 1); func <- init[[idx]]
     if(verbose) print(paste0("Action ", i, ": ", names(init)[idx]))
     lis <- .synthetic_arg_grabber(func)
