@@ -101,9 +101,9 @@ generator_shuffle <- function(dat, param1 = c(0, 1), param2 = c(0, 1), ...){
   col_idx <- sample(1:d, ceiling(max(1, param1*d)))
   row_idx <- sample(1:n, ceiling(max(2, param2*n)))
 
-  val <- as.numeric(dat$mat[row_idx, col_idx])
-
-  dat$mat[row_idx, col_idx] <- sample(val)
+  for(i in col_idx){
+    dat$mat[row_idx,i] <- sample(dat$mat[row_idx,i])
+  }
 
   dat
 }
@@ -182,7 +182,7 @@ generator_monotonic <- function(dat, param1 = c(0, 1), param2 = c(0,1), ...){
 #'
 #' @return data object
 #' @export
-generator_inflate_correlation <- function(dat, param1 = c(0, 1), param2 = c(0,1), ...){
+generator_inflate_correlation <- function(dat, param1 = c(0, 1), param2 = c(0, 1), ...){
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$mat); d <- ncol(dat$mat); param1 <- max(ceiling(param1), 1)
@@ -207,8 +207,8 @@ generator_inflate_correlation <- function(dat, param1 = c(0, 1), param2 = c(0,1)
 #'
 #' @return data object
 #' @export
-generator_cluster <- function(dat, param1 = c(0, 1), param2 = c(0,1),
-                              param3 = c(0,10), param4 = c(-1,1), ...){
+generator_cluster <- function(dat, param1 = c(0, 1), param2 = c(0, 1),
+                              param3 = c(0, 10), param4 = c(-1,1), ...){
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$mat); d <- ncol(dat$mat)

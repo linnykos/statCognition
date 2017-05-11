@@ -43,7 +43,7 @@ test_that("synthetic_generator works", {
 test_that("synthetic_generator respects changes to lambda", {
   set.seed(10)
   dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
-  init <- synthetic_initializer(lambda = 15)
+  init <- synthetic_initializer(lambda = 20)
   init_alt <- synthetic_initializer()
 
   set.seed(10)

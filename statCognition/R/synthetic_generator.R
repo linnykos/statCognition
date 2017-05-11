@@ -19,7 +19,7 @@ get_seed <- function(dat){
   }
 }
 
-.synthetic_generator_seed <- function(dat, init, seed = 10){
+.synthetic_generator_seed <- function(dat, init, seed = 10, verbose = F){
   stopifnot(class(dat) == "data", class(init) == "synthetic_initializer")
 
   set.seed(seed)
@@ -29,13 +29,10 @@ get_seed <- function(dat){
   for(i in 1:iters){
     set.seed(seed+i)
     idx <- sample(1:len, 1); func <- init[[idx]]
+    if(verbose) print(paste0("Action ", i, ": ", names(init)[idx]))
     lis <- .synthetic_arg_grabber(func)
     vec <- .generate_parameter_values(lis)
     dat <- .apply_generator2dat(dat, func, vec)
-    #print(i)
-    #print(idx)
-    #print(dat)
-    #print("=====")
   }
 
   dat
