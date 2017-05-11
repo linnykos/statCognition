@@ -69,6 +69,9 @@ test_that("stat_cognition works", {
   res <- stat_cognition(dat, init, seed_vec, response_vec)
 
   expect_true(is.list(res))
-  expect_true(length(res) == 2)
-  expect_true(all(sapply(res, class) == "value"))
+  expect_true(class(res) == "stat_cognition")
+  expect_true(all(c("value_list", "action_ll", "state_ll") %in% names(res)))
+  expect_true(length(res) == 3)
+  expect_true(length(res$value_list) == 2)
+  expect_true(all(sapply(res$value_list, class) == "value"))
 })

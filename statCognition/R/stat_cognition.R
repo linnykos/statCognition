@@ -33,7 +33,10 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, ...){
     }
   }
 
-  .estimate_value_cognition(state_action_ll, init)
+  value_list <- .estimate_value_cognition(state_action_ll, init)
+
+  structure(list(value_list = value_list, action_ll = init$action_ll,
+                 state_ll = init$state_ll), class = "stat_cognition")
 }
 
 #############
