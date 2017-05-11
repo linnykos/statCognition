@@ -4,7 +4,7 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, ...){
   num_mat <- length(seed_vec)
   num_state_vec <- sapply(init$state_ll, length)
 
-  dat_org <- dat
+  dat_org <- dat; counter <- 1
   state_action_ll <- lapply(1:num_mat, function(x){
     vector("list", num_step)
   })
