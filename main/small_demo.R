@@ -6,6 +6,9 @@ pheno$Days <- 1:nrow(pheno)
 pheno <- data.frame(Days = pheno$Days)
 dat <- data_object(list(mat = mat, pheno = pheno))
 
+####
+load("tests/assets/demo.Rdata")
+
 par(mfrow = c(5,5), mar = rep(0.1, 4))
 compute_color <- function(x){
   sapply(1:nrow(x$pheno), function(y){

@@ -60,7 +60,7 @@ generator_linearize_pheno <- function(dat, param1 = c(0, 1), param2 = c(0, 1), .
 generator_monotonic_pheno <- function(dat, param1 = c(0, 1), param2 = c(0, 1), ...){
   stopifnot("mat" %in% names(dat))
 
-  bool1 <- sample(c(TRUE, FALSE), 1); bool2 <- sample(c(TRUE, FALSE), 1)
+  bool1 <- sample(c(TRUE, FALSE), 1)
 
   n <- nrow(dat$mat); d <- ncol(dat$mat)
   idx_mat <- sample(1:d, 1)
@@ -69,14 +69,15 @@ generator_monotonic_pheno <- function(dat, param1 = c(0, 1), param2 = c(0, 1), .
   n2 <- length(row_idx)
 
   vec1 <- dat$mat[row_idx, idx_mat]; vec2 <- dat$pheno[row_idx, idx_pheno]
-  vec2 <- sort(vec2, decreasing = bool2)
-  vec2 <- vec2[order(vec1, decreasing = bool1)]
+  vec2 <- sort(vec2, decreasing = bool1)
 
   #locally shuffle
   dist <- max(2, ceiling(param2*n2))
   for(i in 1:max(n2 - dist, 1)){
     vec2[i:(i+dist-1)] <- sample(vec2[i:(i+dist-1)])
   }
+
+  vec2 <- vec2[rank(vec1)]
 
   dat$pheno[row_idx,idx_pheno] <- vec2
 

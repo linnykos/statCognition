@@ -57,7 +57,7 @@ test_that("generator_linearize_pheno works with 0", {
 test_that("generator_monotonic_pheno works", {
   set.seed(10)
   load("../assets/demo.RData")
-  res <- generator_monotonic_pheno(dat, 1, 1)
+  res <- generator_monotonic_pheno(dat, 1, 0)
 
   expect_true(is.matrix(res$mat))
   expect_true(class(res) == "data")
