@@ -103,3 +103,28 @@ test_that("generator_brownian works with 0", {
   expect_true(all(dim(res$mat) == c(6,5)))
 })
 
+#######################
+
+## generator_polynomial is correct
+
+test_that("generator_polynomial works", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5)))
+  res <- generator_polynomial(dat, 1, 6, 0.5)
+
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
+})
+
+test_that("generator_polynomial works with 0", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5)))
+  res <- generator_polynomial(dat, 1e-4, 3.5, 1e-4)
+
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
+})
