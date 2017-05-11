@@ -9,7 +9,7 @@ generator_linearize_pheno(dat, param1 = c(0, 1), param2 = c(0, 1), ...)
 \arguments{
 \item{dat}{data object}
 
-\item{param1}{parameter for percentage of rows to refit}
+\item{param1}{parameter for percentage of rows}
 
 \item{param2}{parameter for shrinkage}
 

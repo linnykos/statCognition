@@ -9,7 +9,7 @@ generator_resample(dat, param1 = c(0, 1), ...)
 \arguments{
 \item{dat}{data object}
 
-\item{param1}{parameter for percentage of rows to refit}
+\item{param1}{parameter for percentage of rows}
 
 \item{...}{not used}
 }

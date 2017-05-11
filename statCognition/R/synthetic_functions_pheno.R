@@ -108,8 +108,16 @@ generator_cluster_pheno <- function(dat, param1 = c(0, 1), param2 = c(0, 1),
   param3 <- min(n2-1, round(param3))
 
   #cluster
-  res1 <- suppressWarnings(stats::kmeans(dat$pheno[row_idx, idx_pheno], param3))
-  res2 <- suppressWarnings(stats::kmeans(dat$mat[row_idx, col_idx], param3))
+  lis <- tryCatch({
+    res1 <- suppressWarnings(stats::kmeans(dat$pheno[row_idx, idx_pheno], param3))
+    res2 <- suppressWarnings(stats::kmeans(dat$mat[row_idx, col_idx], param3))
+    list(res1 = res1, res2 = res2)},
+    error = function(e){
+      res1 <- suppressWarnings(stats::kmeans(dat$pheno[row_idx, idx_pheno], 2))
+      res2 <- suppressWarnings(stats::kmeans(dat$mat[row_idx, col_idx], 2))
+      list(res1 = res1, res2 = res2)
+    })
+  res1 <- lis$res1; res2 <- lis$res2
 
   pheno <- dat$pheno
   #reassign
