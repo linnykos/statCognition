@@ -5,7 +5,7 @@
   res_ll <- lapply(1:d, function(x){
     res <- lapply(1:a, function(y){
       if(!any(is.na(val))) {
-        v <- value_evaluate(val, state_action$future[[y]])
+        v <- evaluate(val, state_action$future[[y]])
       } else {v <- 0}
       idx <- diff_func(state_action$future[[y]],
                        state_action$future[[state_action$response]])

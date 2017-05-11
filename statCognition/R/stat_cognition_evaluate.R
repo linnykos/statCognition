@@ -19,7 +19,7 @@ evaluate.stat_cognition<- function(obj, target, ...){
 
   for(i in 1:num_step){
     state <- .state_extract(target, obj$state_ll[[i]], prev_dat = prev_target)
-    pipeline[i] <- value_evaluate(obj$value_list[[i]], state, return.value = F)
+    pipeline[i] <- evaluate(obj$value_list[[i]], state, return.value = F)
     nam_vec[i] <- names(obj$action_ll[[i]])[pipeline[i]]
     prev_target <- target
 

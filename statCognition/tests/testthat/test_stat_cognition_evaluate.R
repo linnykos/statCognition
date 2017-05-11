@@ -1,8 +1,8 @@
 context("Test stat cognition evaluation")
 
-## stat_cognition_evaluate is correct
+## evaluate.stat_cognition is correct
 
-test_that("stat_cognition_evaluate works", {
+test_that("evaluate.stat_cognition works", {
   #construct data
   set.seed(10)
   dat <- data_object(list(mat = matrix(stats::rnorm(100), 50, 2),

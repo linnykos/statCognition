@@ -1,8 +1,8 @@
 context("Test value evaluate")
 
-## value_evaluate is correct
+## evaluate.value is correct
 
-test_that("value_evaluate returns value", {
+test_that("evaluate.value returns value", {
   contribution_l1 <- list(action1 = contribution(seq(1,10,3), c(10,1:3)+.5),
                           action2 = contribution(seq(3,15,5), 6:8+.5))
   contribution_l2 <- list(action1 = contribution(seq(11,20,3), c(10,1:3)+.1),
@@ -10,12 +10,12 @@ test_that("value_evaluate returns value", {
   contribution_ll <- list(contribution_l1, contribution_l2)
 
   obj <- value_estimate(contribution_ll)
-  res <- value_evaluate(obj, c(5,17))
+  res <- evaluate(obj, c(5,17))
 
   expect_true(is.numeric(res))
 })
 
-test_that("value_evaluate returns action", {
+test_that("evaluate.value returns action", {
   contribution_l1 <- list(action1 = contribution(seq(1,10,3), c(10,1:3)+.5),
                           action2 = contribution(seq(3,15,5), 6:8+.5))
   contribution_l2 <- list(action1 = contribution(seq(11,20,3), c(10,1:3)+.1),
@@ -23,7 +23,7 @@ test_that("value_evaluate returns action", {
   contribution_ll <- list(contribution_l1, contribution_l2)
 
   obj <- value_estimate(contribution_ll)
-  res <- value_evaluate(obj, c(5,17), return.value = F)
+  res <- evaluate(obj, c(5,17), return.value = F)
 
   expect_true(is.numeric(res))
   expect_true(res %% 1 == 0)

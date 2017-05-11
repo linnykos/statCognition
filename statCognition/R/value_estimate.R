@@ -40,7 +40,7 @@ value_estimate <- function(contribution_ll){
   #for each action, evaluate how much val is worth
   action_val <- sapply(1:a, function(i){
     sum(sapply(1:d, function(j){
-      .contribution_evaluate(contribution_ll[[j]][[i]], val[j])
+      evaluate(contribution_ll[[j]][[i]], val[j])
     }))
   })
 
