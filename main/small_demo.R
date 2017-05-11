@@ -7,12 +7,12 @@ pheno <- data.frame(Days = pheno$Days)
 dat <- data_object(list(mat = mat, pheno = pheno))
 
 ####
-load("tests/assets/demo.Rdata")
+#load("tests/assets/demo.Rdata")
 
 par(mfrow = c(5,5), mar = rep(0.1, 4))
 compute_color <- function(x){
   sapply(1:nrow(x$pheno), function(y){
-    rgb((x$pheno[y,1])/107, 0, (107-x$pheno[y,1])/107)
+    rgb(min(max((x$pheno[y,1])/107,0),1), 0, min(max((107-x$pheno[y,1])/107,0), 1))
   })
 }
 #plot original data

@@ -25,7 +25,7 @@ generator_refit_normality <- function(dat, param1 = c(0, 1), ...){
 #' Synthetic generator function: Resample rows
 #'
 #' @param dat data object
-#' @param param1 parameter for percentage of rows to refit
+#' @param param1 parameter for percentage of rows
 #' @param ... not used
 #'
 #' @return data object
