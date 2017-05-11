@@ -2,7 +2,7 @@
 % Please edit documentation in R/synthetic_functions_pheno.R
 \name{generator_resample_pheno}
 \alias{generator_resample_pheno}
-\title{Synthetic generator function: Resample rows}
+\title{Synthetic generator function: Resample phenotype rows}
 \usage{
 generator_resample_pheno(dat, param1 = c(0, 1), ...)
 }
@@ -17,5 +17,5 @@ generator_resample_pheno(dat, param1 = c(0, 1), ...)
 data object
 }
 \description{
-Synthetic generator function: Resample rows
+Synthetic generator function: Resample phenotype rows
 }

@@ -4,8 +4,8 @@
 \alias{generator_circle}
 \title{Synthetic generator function: Shrink points around a circle for a pair of points}
 \usage{
-generator_circle(dat, param1 = c(0, 0.25), param2 = c(0, 1), param3 = c(0,
-  1), param4 = c(0.1, 0.5), param5 = c(0, 6.28), param6 = c(0, 6.28),
+generator_circle(dat, param1 = c(0, 1), param2 = c(0, 1), param3 = c(0,
+  1), param4 = c(0, 0.5), param5 = c(0, 6.28), param6 = c(0, 6.28),
   param7 = c(0, 1.57), ...)
 }
 \arguments{

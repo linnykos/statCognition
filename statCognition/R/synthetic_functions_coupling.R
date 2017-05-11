@@ -28,7 +28,6 @@ generator_monotonic <- function(dat, param1 = c(0, 1), param2 = c(0,1), ...){
     vec2[i:(i+dist-1)] <- sample(vec2[i:(i+dist-1)])
   }
 
-
   dat$mat[row_idx, pair[1]] <- vec1; dat$mat[row_idx, pair[2]] <- vec2
 
   dat
