@@ -32,6 +32,10 @@ get_seed <- function(dat){
     lis <- .synthetic_arg_grabber(func)
     vec <- .generate_parameter_values(lis)
     dat <- .apply_generator2dat(dat, func, vec)
+    #print(i)
+    #print(idx)
+    #print(dat)
+    #print("=====")
   }
 
   dat

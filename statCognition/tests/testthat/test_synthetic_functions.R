@@ -7,7 +7,10 @@ test_that("generator_refit_normality works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_refit_normality(dat, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_refit_normality works with 0", {
@@ -15,7 +18,10 @@ test_that("generator_refit_normality works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_refit_normality(dat, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ####################
@@ -27,7 +33,10 @@ test_that("generator_resample works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_resample(dat, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_resample works with 0", {
@@ -35,7 +44,10 @@ test_that("generator_resample works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_resample(dat, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ##################
@@ -47,7 +59,10 @@ test_that("generator_resample_pheno works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
   res <- generator_resample_pheno(dat, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_resample_pheno works with 0", {
@@ -55,7 +70,10 @@ test_that("generator_resample_pheno works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
   res <- generator_resample_pheno(dat, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ##################
@@ -67,7 +85,10 @@ test_that("generator_add_noise works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_add_noise(dat, 1, 1, 1, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_add_noise works with 0", {
@@ -75,7 +96,10 @@ test_that("generator_add_noise works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_add_noise(dat, 1e-4, 1e-4, 1e-4, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ##################
@@ -87,7 +111,10 @@ test_that("generator_shuffle works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_shuffle(dat, 1, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_shuffle works with 0", {
@@ -95,7 +122,10 @@ test_that("generator_shuffle works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_shuffle(dat, 1e-4, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ##################
@@ -107,7 +137,10 @@ test_that("generator_decouple_empirical works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_decouple_empirical(dat, 1, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_decouple_empirical works with 0", {
@@ -115,7 +148,10 @@ test_that("generator_decouple_empirical works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_decouple_empirical(dat, 1e-4, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ##################
@@ -127,7 +163,10 @@ test_that("generator_monotonic works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_monotonic(dat, 1, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_monotonic works with 0", {
@@ -135,7 +174,10 @@ test_that("generator_monotonic works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_monotonic(dat, 1e-4, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ###################
@@ -147,7 +189,10 @@ test_that("generator_inflate_correlation works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_inflate_correlation(dat, 1, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_inflate_correlation works with 0", {
@@ -155,7 +200,10 @@ test_that("generator_inflate_correlation works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_inflate_correlation(dat, 1e-4, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ###################
@@ -167,7 +215,10 @@ test_that("generator_cluster works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_cluster(dat, 1, 1, 1, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_cluster works with 0", {
@@ -175,7 +226,10 @@ test_that("generator_cluster works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_cluster(dat, 1e-4, 1e-4, 1e-4, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 ###################
@@ -187,7 +241,10 @@ test_that("generator_brownian works", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_brownian(dat, 1)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 
 test_that("generator_brownian works with 0", {
@@ -195,6 +252,9 @@ test_that("generator_brownian works with 0", {
   dat <- data_object(list(mat = matrix(1:60, 6, 5)))
   res <- generator_brownian(dat, 1e-4)
 
-  expect_true(all(dim(res) == c(6,5)))
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == c(6,5)))
 })
 

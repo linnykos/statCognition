@@ -24,7 +24,6 @@ test_that(".synthetic_generator_seed is reproducible", {
   expect_true(all(res$mat == res2$mat))
 })
 
-
 ##################
 
 ## synthetic_generator is correct
@@ -39,6 +38,21 @@ test_that("synthetic_generator works", {
   expect_true(class(res) == "data")
   expect_true(all(dim(res$mat) == c(6,5)))
   expect_true("synthetic_seed" %in% names(res))
+})
+
+test_that("synthetic_generator respects changes to lambda", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
+  init <- synthetic_initializer(lambda = 15)
+  init_alt <- synthetic_initializer()
+
+  set.seed(10)
+  res <- synthetic_generator(dat, init)
+  res2 <- .synthetic_generator_seed(dat, init, get_seed(res))
+  res3 <- .synthetic_generator_seed(dat, init_alt, get_seed(res))
+
+  expect_true(all(res$mat == res2$mat))
+  expect_true(!any(res$mat == res3$mat))
 })
 
 ##################

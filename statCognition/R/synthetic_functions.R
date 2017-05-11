@@ -12,10 +12,13 @@ generator_refit_normality <- function(dat, param1 = c(0, 1), ...){
   mu <- colMeans(dat$mat)
   Sigma <- stats::cov(dat$mat)
 
-  n <- nrow(dat$mat)
+  n <- nrow(dat$mat); d <- ncol(dat$mat)
   idx <- sample(1:n, ceiling(max(2, param1*n)))
 
-  dat$mat[idx,] <- MASS::mvrnorm(length(idx), mu, Sigma)
+  dat$mat[idx,] <- tryCatch({MASS::mvrnorm(length(idx), mu, Sigma)},
+                            error = function(e){
+                              MASS::mvrnorm(length(idx), mu, diag(d))
+                            })
   dat
 }
 
@@ -124,7 +127,7 @@ generator_decouple_empirical <- function(dat, param1 = c(0, 1), param2 = c(0, 1)
   row_idx <- sample(1:n, ceiling(max(2, param2*n)))
 
   for(i in col_idx){
-    noise_lvl <- diff(range(dat$mat[,i]))/5
+    noise_lvl <- max(diff(range(dat$mat[,i]))/5, 0.1)
     dat$mat[row_idx,i] <- sample(dat$mat[,i], length(row_idx)) +
       stats::rnorm(length(row_idx), 0, noise_lvl)
   }
@@ -241,9 +244,10 @@ generator_brownian <- function(dat, param1 = c(-1, 1), ...){
   x <- dat$mat[,d1]; y <- dat$mat[,d2]
   brownian <- cumsum(stats::rnorm(n))
   brownian <- (brownian - min(brownian))/(max(brownian) - min(brownian))
-  brownian <- (brownian + min(y))*max(y)
+  brownian <- (brownian * diff(range(y))) + min(y)
 
-  assignment <- ceiling(n*(x - min(x)/diff(range(x))))
+  assignment <- ceiling(n*(x - min(x))/diff(range(x)))
+  assignment[assignment == 0] <- 1
 
   for(i in 1:n){
     dis <- y[i] - brownian[assignment[i]]
