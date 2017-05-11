@@ -23,7 +23,7 @@ test_that("stat_cognition_evaluate works", {
   init <- stat_cognition_initializer(action_ll, state_ll)
 
   cog <- stat_cognition(dat, init, seed_vec, response_vec)
-  res <- stat_cognition_evaluate(cog, dat)
+  res <- evaluate(cog, dat)
 
   expect_true(class(res) == "stat_cognition_result")
   expect_true(all(names(res) == c("pipeline", "result")))

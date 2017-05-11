@@ -7,7 +7,7 @@
 is_valid(obj, ...)
 }
 \arguments{
-\item{obj}{The object to check}
+\item{obj}{object to check}
 
 \item{...}{not used}
 }
