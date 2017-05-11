@@ -4,7 +4,7 @@
 \alias{generator_polynomial}
 \title{Synthetic generator function: Polynomial regression on a pair of variables}
 \usage{
-generator_polynomial(dat, param1 = c(-1, 1), param2 = c(3, 6),
+generator_polynomial(dat, param1 = c(0, 1), param2 = c(3, 6),
   param3 = c(0, 0.5), ...)
 }
 \arguments{

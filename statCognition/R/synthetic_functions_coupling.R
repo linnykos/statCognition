@@ -132,7 +132,7 @@ generator_brownian <- function(dat, param1 = c(0, .5), ...){
 #'
 #' @return data object
 #' @export
-generator_polynomial <- function(dat, param1 = c(-1, 1), param2 = c(3, 6),
+generator_polynomial <- function(dat, param1 = c(0, 1), param2 = c(3, 6),
                                  param3 = c(0, 0.5), ...){
   stopifnot("mat" %in% names(dat))
 
@@ -152,6 +152,67 @@ generator_polynomial <- function(dat, param1 = c(-1, 1), param2 = c(3, 6),
 
   dis <- dat$mat[row_idx,d1] - pred_y
   dat$mat[row_idx,d1] <- pred_y + param3*dis
+
+  dat
+}
+
+#' Synthetic generator function: Shrink points around a circle for a pair of points
+#'
+#' @param dat data object
+#' @param param1 parameter for percentage of rows
+#' @param param2 parameter for percentage width of circle
+#' @param param3 parameter for percentage height of circle
+#' @param param4 parameter for shrinkage
+#' @param param5 parameter for start of radians
+#' @param param6 parameter for number of radians
+#' @param param7 parameter for angle of circle
+#' @param ... not used
+#'
+#' @return data object
+#' @export
+generator_circle <- function(dat, param1 = c(0, 0.25), param2 = c(0, 1),
+                                 param3 = c(0, 1), param4 = c(0.1, 0.5),
+                                 param5 = c(0, 6.28), param6 = c(0, 6.28),
+                                 param7 = c(0, 1.57), ...){
+  stopifnot("mat" %in% names(dat))
+
+  n <- nrow(dat$mat); d <- ncol(dat$mat)
+  pair <- sample(1:d, 2); d1 <- pair[1]; d2 <- pair[2]
+  row_idx <- sample(1:n, ceiling(max(3, param1*n)))
+
+  #normalize the data
+  x <- dat$mat[,d1]; y <- dat$mat[,d2]
+  x <- (x-min(x))/diff(range(x)); y <- (y-min(y))/diff(range(y))
+
+  #form circle
+  idx <- sample(1:n, 1); center <- c(x[idx], y[idx])
+  radius1 <- param2*min(center[1], 1-center[1]); radius2 <- param3*min(center[2], 1-center[2])
+
+  #draw circle
+  idx <- seq(param5, param5 + param6, length.out = 100)
+  tmp1 <- (sin(idx)+1)/2*radius1+center[1]; tmp2 <- (cos(idx)+1)/2*radius2+center[2]
+
+  #rotate circle
+  circle <- cbind(tmp1, tmp2)
+  rot_mat <- matrix(c(cos(param7), sin(param7), -sin(param7), cos(param7)), 2, 2)
+  circle <- circle %*% rot_mat
+
+  #shrink points towards the circle
+  for(i in row_idx){
+    dis <- apply(circle, 1, function(z){
+      .l2norm(z - c(x[i], y[i]))
+    })
+    idx <- which.min(dis)
+    vec <- c(x[i], y[i]) - circle[idx,]
+    x[i] <- circle[idx,1] + param4 * vec[1]
+    y[i] <- circle[idx,2] + param4 * vec[2]
+  }
+
+  #rescale x and y
+  x <- x*diff(range(dat$mat[,d1])) + min(dat$mat[,d1])
+  y <- y*diff(range(dat$mat[,d2])) + min(dat$mat[,d2])
+
+  dat$mat[,pair] <- cbind(x,y)
 
   dat
 }
