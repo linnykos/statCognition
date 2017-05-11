@@ -10,8 +10,7 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, ...){
   })
 
   for(i in 1:num_mat){
-    dat <- .generate_synthetic_data_from_seed(dat_org, init$generator_init,
-                                              base_seed = seed_vec[i])
+    dat <- .synthetic_generator_seed(dat_org, init$generator_init, seed = seed_vec[i])
     prev_dat <- dat
 
     for(j in 1:num_step){

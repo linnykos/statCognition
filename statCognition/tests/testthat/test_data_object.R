@@ -31,6 +31,40 @@ test_that("get_primary works", {
   expect_true(all(res == mat))
 })
 
+#############################
+
+## is_valid.data is correct
+
+test_that("is_valid.data works", {
+  set.seed(10)
+  mat <- matrix(rnorm(30), 5, 6)
+  age <- 1:5
+  gender <- as.factor(c("M", "F", "M", "M", "F"))
+  pheno <- data.frame(age, gender)
+
+  dat <- data_object(list(mat = mat, pheno = pheno))
+  expect_true(is_valid(dat))
+})
+
+test_that("is_valid.data works with synthetic data", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
+  init <- synthetic_initializer()
+
+  dat2 <- synthetic_generator(dat, init)
+  expect_true(is_valid(dat2))
+})
+
+test_that("is_valid.data fails if seed is tampered", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
+  init <- synthetic_initializer()
+
+  dat2 <- synthetic_generator(dat, init)
+  dat2$synthetic_seed <- "asdf"
+  expect_error(is_valid(dat2))
+})
+
 ###########################
 
 ## .remove_idx is correct

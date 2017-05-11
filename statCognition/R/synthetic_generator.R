@@ -1,12 +1,21 @@
-synthetic_generator <- function(dat, init, lambda = 5){
+synthetic_generator <- function(dat, init){
   stopifnot(class(dat) == "data", class(init) == "synthetic_initializer")
 
   seed <- round(stats::runif(1)*1000)
 
-  dat_synthetic <- .synthetic_generator_seed(dat, init, lambda, seed = seed)
+  dat_synthetic <- .synthetic_generator_seed(dat, init, seed = seed)
 
   dat_synthetic$synthetic_seed <- seed
   dat_synthetic
+}
+
+get_seed <- function(dat){
+  if("synthetic_seed" %in% names(dat)){
+    dat$synthetic_seed
+  } else {
+    warning("Input dat does not have a seed, hence is not synthetic")
+    invisible()
+  }
 }
 
 .synthetic_generator_seed <- function(dat, init, lambda = 5, seed = 10){
