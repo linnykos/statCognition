@@ -92,3 +92,23 @@ test_that("is_valid.synthetic_initializer works", {
 
   expect_true(is_valid(init, dat))
 })
+
+test_that("is_valid.synthetic_initializer errors if I screw it up dramatically", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
+  init <- synthetic_initializer()
+  init[[1]] <- stats::lm
+
+  expect_error(is_valid(init, dat))
+})
+
+test_that("is_valid.synthetic_initializer errors if I screw it up subtly", {
+  set.seed(10)
+  dat <- data_object(list(mat = matrix(1:60, 6, 5), pheno = data.frame(age = 1:6)))
+  init <- synthetic_initializer()
+  init[[1]] <- function(dat, param1 = c(0, 1), ...){
+    invisible()
+  }
+
+  expect_error(is_valid(init, dat))
+})

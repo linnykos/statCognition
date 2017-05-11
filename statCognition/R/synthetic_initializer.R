@@ -16,17 +16,17 @@ is_valid.synthetic_initializer <- function(obj, dat, ...){
   tmp <- sapply(1:len, function(x){
     lis <- .synthetic_arg_grabber(obj[[x]])
     vec <- .generate_parameter_values(lis, func = min)
-    tmp <- .apply_generator2dat(dat, obj[[x]], vec)
-    if(class(dat) == "data_obj") stop(paste0(names(obj)[x], ", function number ", x,
+    tmp_dat <- .apply_generator2dat(dat, obj[[x]], vec)
+    if(class(tmp_dat) != "data") stop(paste0(names(obj)[x], ", function number ", x,
                                              " does not work with the provided dat."))
   })
 
   tmp <- sapply(1:len, function(x){
     lis <- .synthetic_arg_grabber(obj[[x]])
     vec <- .generate_parameter_values(lis, func = max)
-    tmp <- .apply_generator2dat(dat, obj[[x]], vec)
-    if(class(dat) == "data_obj") stop(paste0(names(obj)[x], ", function number ", x,
-                                             " does not work with the provided dat."))
+    tmp_dat <- .apply_generator2dat(dat, obj[[x]], vec)
+    if(class(tmp_dat) != "data") stop(paste0(names(obj)[x], ", function number ", x,
+                                             ", does not work with the provided dat."))
   })
 
   TRUE
