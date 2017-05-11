@@ -5,7 +5,7 @@
 \title{Synthetic generator function: Add Gaussian noise to columns}
 \usage{
 generator_add_noise(dat, param1 = c(0, 1), param2 = c(0, 1),
-  param3 = c(-0.1, 0.1), param4 = c(0, 1), ...)
+  param3 = c(-0.1, 0.1), param4 = c(1e-04, 1), ...)
 }
 \arguments{
 \item{dat}{data object}

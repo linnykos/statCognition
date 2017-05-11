@@ -13,7 +13,7 @@ generator_refit_normality <- function(dat, param1 = c(0, 1), ...){
   Sigma <- stats::cov(dat$mat)
 
   n <- nrow(dat$mat)
-  idx <- sample(1:n, ceiling(max(1, param1*n)))
+  idx <- sample(1:n, ceiling(max(2, param1*n)))
 
   dat$mat[idx,] <- MASS::mvrnorm(length(idx), mu, Sigma)
   dat
@@ -31,7 +31,7 @@ generator_resample <- function(dat, param1 = c(0, 1), ...){
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$mat)
-  idx <- sample(1:n, ceiling(max(1, param1*n)))
+  idx <- sample(1:n, ceiling(max(2, param1*n)))
 
   dat$mat[idx,] <- dat$mat[sample(idx, replace = T),]
   dat
@@ -49,7 +49,7 @@ generator_resample_pheno <- function(dat, param1 = c(0, 1), ...){
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$pheno)
-  idx <- sample(1:n, ceiling(max(1, param1*n)))
+  idx <- sample(1:n, ceiling(max(2, param1*n)))
 
   dat$pheno[idx,] <- dat$pheno[sample(1:n, length(idx), replace = F),]
   dat
@@ -67,12 +67,12 @@ generator_resample_pheno <- function(dat, param1 = c(0, 1), ...){
 #' @return data object
 #' @export
 generator_add_noise <- function(dat, param1 = c(0, 1), param2 = c(0, 1),
-                                param3 = c(-.1, .1), param4 = c(0, 1), ...){
+                                param3 = c(-.1, .1), param4 = c(1e-4, 1), ...){
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$mat); d <- ncol(dat$mat)
-  col_idx <- sample(1:d, ceiling(max(1, param1*n)))
-  row_idx <- sample(1:n, ceiling(max(1, param2*n)))
+  col_idx <- sample(1:d, ceiling(max(1, param1*d)))
+  row_idx <- sample(1:n, ceiling(max(2, param2*n)))
 
   num_val <- length(col_idx)*length(row_idx)
 
@@ -95,8 +95,8 @@ generator_shuffle <- function(dat, param1 = c(0, 1), param2 = c(0, 1), ...){
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$mat); d <- ncol(dat$mat)
-  col_idx <- sample(1:d, ceiling(max(1, param1*n)))
-  row_idx <- sample(1:n, ceiling(max(1, param2*n)))
+  col_idx <- sample(1:d, ceiling(max(1, param1*d)))
+  row_idx <- sample(1:n, ceiling(max(2, param2*n)))
 
   val <- as.numeric(dat$mat[row_idx, col_idx])
 
@@ -120,8 +120,8 @@ generator_decouple_empirical <- function(dat, param1 = c(0, 1), param2 = c(0, 1)
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$mat); d <- ncol(dat$mat)
-  col_idx <- sample(1:d, ceiling(max(1, param1*n)))
-  row_idx <- sample(1:n, ceiling(max(1, param2*n)))
+  col_idx <- sample(1:d, ceiling(max(1, param1*d)))
+  row_idx <- sample(1:n, ceiling(max(2, param2*n)))
 
   for(i in col_idx){
     noise_lvl <- diff(range(dat$mat[,i]))/5
@@ -148,7 +148,7 @@ generator_monotonic <- function(dat, param1 = c(0, 1), param2 = c(0,1), ...){
 
   n <- nrow(dat$mat); d <- ncol(dat$mat)
   pair <- sample(1:d, 2)
-  row_idx <- sample(1:n, ceiling(max(1, param1*n)))
+  row_idx <- sample(1:n, ceiling(max(2, param1*n)))
   n2 <- length(row_idx)
 
   vec1 <- dat$mat[row_idx, pair[1]]; vec2 <- dat$mat[row_idx, pair[2]]
@@ -156,11 +156,12 @@ generator_monotonic <- function(dat, param1 = c(0, 1), param2 = c(0,1), ...){
   vec2 <- sort(vec2, decreasing = bool2)
 
   #locally shuffle
-  dist <- ceiling(param2*n2)
+  dist <- max(2, ceiling(param2*n2))
   for(i in 1:max(n2 - dist, 1)){
     vec1[i:(i+dist-1)] <- sample(vec1[i:(i+dist-1)])
     vec2[i:(i+dist-1)] <- sample(vec2[i:(i+dist-1)])
   }
+
 
   dat$mat[row_idx, pair[1]] <- vec1; dat$mat[row_idx, pair[2]] <- vec2
 
@@ -183,7 +184,7 @@ generator_inflate_correlation <- function(dat, param1 = c(0, 10), param2 = c(0,1
 
   n <- nrow(dat$mat); d <- ncol(dat$mat); param1 <- ceiling(param1)
   idx_pairs <- matrix(sample(1:d, 2*param1, replace = T), param1, 2)
-  row_idx <- sample(1:n, ceiling(max(1, param1*n)))
+  row_idx <- sample(1:n, ceiling(max(2, param1*n)))
 
   for(i in 1:nrow(idx_pairs)){
     dat$mat[row_idx,idx_pairs[i,2]] <- rowMeans(dat$mat[row_idx,idx_pairs[i,]])
@@ -208,8 +209,8 @@ generator_cluster <- function(dat, param1 = c(0, 1), param2 = c(0,1),
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$mat); d <- ncol(dat$mat)
-  col_idx <- sample(1:d, ceiling(max(1, param1*n)))
-  row_idx <- sample(1:n, ceiling(max(1, param2*n)))
+  col_idx <- sample(1:d, ceiling(max(1, param1*d)))
+  row_idx <- sample(1:n, ceiling(max(2, param2*n)))
   param3 <- ceiling(param3)
 
   res <- stats::kmeans(dat$mat[row_idx, col_idx], param3)
