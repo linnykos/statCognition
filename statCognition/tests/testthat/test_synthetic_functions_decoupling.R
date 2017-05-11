@@ -129,3 +129,27 @@ test_that("generator_decouple_empirical works with 0", {
 })
 
 ##################
+
+## generator_outlier is correct
+
+test_that("generator_outlier works", {
+  set.seed(10)
+  load("../assets/demo.RData")
+  res <- generator_outlier(dat, 5, 4)
+
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == dim(dat$mat)))
+})
+
+test_that("generator_outlier works with small values", {
+  set.seed(10)
+  load("../assets/demo.RData")
+  res <- generator_outlier(dat, 1, 1)
+
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == dim(dat$mat)))
+})

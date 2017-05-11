@@ -4,8 +4,8 @@
 \alias{generator_cluster}
 \title{Synthetic generator function: Cluster points}
 \usage{
-generator_cluster(dat, param1 = c(0, 1), param2 = c(0, 1), param3 = c(0,
-  10), param4 = c(0, 0.5), ...)
+generator_cluster(dat, param1 = c(0, 1), param2 = c(0, 0.75),
+  param3 = c(3, 10), param4 = c(0.1, 0.5), ...)
 }
 \arguments{
 \item{dat}{data object}

@@ -116,3 +116,30 @@ generator_decouple_empirical <- function(dat, param1 = c(0, 1), param2 = c(0, 1)
 
   dat
 }
+
+#' Synthetic generator function: Create outliers
+#'
+#' @param dat data object
+#' @param param1 parameter for number of points
+#' @param param2 parameter for expansion
+#' @param ... not used
+#'
+#' @return data object
+#' @export
+generator_outlier <- function(dat, param1 = c(1, 5), param2 = c(1, 3), ...){
+  stopifnot("mat" %in% names(dat))
+
+  n <- nrow(dat$mat); d <- ncol(dat$mat)
+  param1 <- min(floor(param1), n)
+  dis_mat <- as.matrix(stats::dist(dat$mat)); diag(dis_mat) <- Inf
+  vec <- apply(dis_mat, 1, min)
+  row_idx <- order(vec, decreasing = T)[1:param1]
+
+  for(i in row_idx){
+    neighbor <- which.min(dis_mat[i,])
+    dis <- dat$mat[i,] - dat$mat[neighbor,]
+    dat$mat[i,] <- dat$mat[neighbor,] + param2*dis
+  }
+
+  dat
+}

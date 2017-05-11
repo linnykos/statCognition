@@ -154,3 +154,29 @@ test_that("generator_circle works with 0", {
   expect_true(!any(is.na(res$mat)))
   expect_true(all(dim(res$mat) == dim(dat$mat)))
 })
+
+#######################
+
+## generator_nearest_neighbor is correct
+
+test_that("generator_nearest_neighbor works", {
+  set.seed(10)
+  load("../assets/demo.RData")
+  res <- generator_nearest_neighbor(dat, 1, 1)
+
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == dim(dat$mat)))
+})
+
+test_that("generator_nearest_neighbor works with 0", {
+  set.seed(10)
+  load("../assets/demo.RData")
+  res <- generator_nearest_neighbor(dat, 1e-4, 1e-4)
+
+  expect_true(is.matrix(res$mat))
+  expect_true(class(res) == "data")
+  expect_true(!any(is.na(res$mat)))
+  expect_true(all(dim(res$mat) == dim(dat$mat)))
+})

@@ -69,12 +69,12 @@ generator_inflate_correlation <- function(dat, param1 = c(0, 1), param2 = c(0, 1
 #'
 #' @return data object
 #' @export
-generator_cluster <- function(dat, param1 = c(0, 1), param2 = c(0, 1),
-                              param3 = c(0, 10), param4 = c(0, .5), ...){
+generator_cluster <- function(dat, param1 = c(0, 1), param2 = c(0, 0.75),
+                              param3 = c(3, 10), param4 = c(0.1, .5), ...){
   stopifnot("mat" %in% names(dat))
 
   n <- nrow(dat$mat); d <- ncol(dat$mat)
-  col_idx <- sample(1:d, ceiling(max(1, param1*d)))
+  col_idx <- sample(1:d, ceiling(max(2, param1*d)))
   row_idx <- sample(1:n, ceiling(max(2, param2*n)))
   param3 <- min(max(2, ceiling(param3)), length(row_idx) - 1)
 
@@ -216,3 +216,29 @@ generator_circle <- function(dat, param1 = c(0, 1), param2 = c(0, 1),
   dat
 }
 
+#' Synthetic generator function: Shrink towards nearest neighbor
+#'
+#' Shrink based on all dimensions
+#'
+#' @param dat data object
+#' @param param1 parameter for percentage of rows
+#' @param param2 parameter for shrinkage
+#' @param ... not used
+#'
+#' @return data object
+#' @export
+generator_nearest_neighbor <- function(dat, param1 = c(0, 1), param2 = c(0, 0.5), ...){
+  stopifnot("mat" %in% names(dat))
+
+  n <- nrow(dat$mat); d <- ncol(dat$mat)
+  row_idx <- sample(1:n, ceiling(max(4, param1*n)))
+  dis <- as.matrix(stats::dist(dat$mat[row_idx,]))
+  pairings <- .construct_pairings_confounding(dis)
+
+  for(i in 1:nrow(pairings)){
+    dis <- dat$mat[row_idx[pairings[i,1]],] - dat$mat[row_idx[pairings[i,2]],]
+    dat$mat[row_idx[pairings[i,1]],] <- dat$mat[row_idx[pairings[i,2]],] + param2*dis
+  }
+
+  dat
+}

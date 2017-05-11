@@ -24,7 +24,7 @@ get_seed <- function(dat){
 
   set.seed(seed)
   lambda <- attr(init, "lambda"); if(is.null(lambda)) lambda <- 5
-  iters <- stats::rpois(1, lambda); len <- length(init)
+  iters <- max(stats::rpois(1, lambda), 1); len <- length(init)
 
   for(i in 1:iters){
     set.seed(seed*i+i)
