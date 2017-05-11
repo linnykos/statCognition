@@ -4,7 +4,7 @@
 \alias{generator_inflate_correlation}
 \title{Synthetic generator function: Inflate the correlation between pairs of variables}
 \usage{
-generator_inflate_correlation(dat, param1 = c(0, 10), param2 = c(0, 1), ...)
+generator_inflate_correlation(dat, param1 = c(0, 1), param2 = c(0, 1), ...)
 }
 \arguments{
 \item{dat}{data object}

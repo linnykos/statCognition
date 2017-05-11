@@ -4,10 +4,12 @@
 \alias{is_valid}
 \title{Checks object validity}
 \usage{
-is_valid(obj)
+is_valid(obj, ...)
 }
 \arguments{
 \item{obj}{The object to check}
+
+\item{...}{not used}
 }
 \value{
 boolean

@@ -7,6 +7,7 @@ synthetic_initializer <- function(func_list = .grab_package_contents("generator"
 #' Runs the functions on the minimum and maximum values on the dataset
 #'
 #' @param obj The object to check
+#' @param dat data object to test all the synthetic generator functions on
 #' @param ... not used
 #'
 #' @return boolean
