@@ -1,11 +1,3 @@
-generate_synthetic_initializer <- function(mixing_list = generate_mixing_default(),
-                                           distortion_param = 0.4, stopping_param = 0.8,
-                                           max_iter = 10){
-  structure(list(mixing_list = mixing_list, distortion_param = distortion_param,
-                 stopping_param = stopping_param, max_iter = max_iter),
-            class = "generator_init")
-}
-
 generate_synthetic_data <- function(mat, init, ...){
   seed <- round(stats::runif(1)*1000)
 
@@ -30,24 +22,4 @@ generate_synthetic_data <- function(mat, init, ...){
   }
 
   mat
-}
-
-generate_mixing_default <- function(function_starter = "mixing", class_name = "mixing_list",
-                                    package_name = "statCognition"){
-  .grab_package_contents(function_starter, class_name, package_name)
-}
-
-.grab_package_contents <- function(function_starter, class_name, package_name = "statCognition"){
-  if(!isNamespaceLoaded(package_name)) stop(paste(package_name, "is not",
-                                                  "currently loaded"))
-
-  all.obj <- ls(paste0("package:", package_name))
-  fun <- grep(paste0("^", function_starter, "_*"), all.obj, value = T)
-
-  lis <- lapply(fun, function(x){
-    eval(parse(text = paste0(package_name, "::", x)))
-  })
-  names(lis) <- fun
-
-  structure(lis, class = class_name)
 }

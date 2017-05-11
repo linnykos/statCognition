@@ -1,5 +1,5 @@
 stat_cognition_initializer <- function(action_ll, state_ll, difference_list = NA,
-                                       generator_init = generate_synthetic_initializer()){
+                                       generator_init = synthetic_initializer()){
   stopifnot(length(action_ll) == length(state_ll))
   stopifnot(all(is.na(difference_list)) | length(difference_list) == length(state_ll))
 
