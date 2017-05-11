@@ -23,9 +23,11 @@ value <- function(surface){
 #' Checks value object for validity
 #'
 #' @param obj The object to check
+#' @param ... not used
+#'
 #' @return boolean
 #' @export
-is_valid.value <- function(obj){
+is_valid.value <- function(obj, ...){
   stopifnot(all(names(obj) == "surface"))
   stopifnot(all(names(obj$surface) == c("hash", "block_list")))
 

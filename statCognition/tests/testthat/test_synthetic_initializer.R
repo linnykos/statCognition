@@ -28,3 +28,31 @@ test_that(".grab_package_contents works", {
   lm.D9 <- res[[idx]](weight ~ group)
   expect_true(class(lm.D9) == "lm")
 })
+
+########################
+
+## .generate_parameter_values is correct
+
+test_that(".generate_parameter_values works", {
+  lis <- .synthetic_arg_grabber(generator_add_noise)
+  res <- .generate_parameter_values(lis)
+
+  expect_true(length(res) == length(lis))
+  expect_true(all(is.numeric(res)))
+})
+
+test_that(".generate_parameter_values works with min", {
+  lis <- .synthetic_arg_grabber(generator_add_noise)
+  res <- .generate_parameter_values(lis, min)
+  res2 <- .generate_parameter_values(lis)
+
+  expect_true(all(res <= res2))
+})
+
+test_that(".generate_parameter_values works with max", {
+  lis <- .synthetic_arg_grabber(generator_add_noise)
+  res <- .generate_parameter_values(lis, max)
+  res2 <- .generate_parameter_values(lis)
+
+  expect_true(all(res >= res2))
+})

@@ -45,7 +45,15 @@
   sapply(1:d, function(x){set.seed(10); state_list[[x]](dat, ...)})
 }
 
-is_valid.state_action <- function(obj){
+
+#' Checks state_action object for validity
+#'
+#' @param obj The object to check
+#' @param ... not used
+#'
+#' @return boolean
+#' @export
+is_valid.state_action <- function(obj, ...){
   stopifnot(length(obj) == 3, all(names(obj) == c("current", "future", "response")))
   stopifnot(length(unique(sapply(obj$future, length))) == 1)
 
