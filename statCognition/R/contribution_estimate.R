@@ -10,7 +10,7 @@
   }
 
   #output
-  contribution(breakpoints = res$vec1, values = coef_vec)
+  contribution(breakpoints = res$vec1, values1 = coef_vec)
 }
 
 
