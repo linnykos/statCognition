@@ -7,7 +7,7 @@
       if(!any(is.na(val))) {
         v <- evaluate(val, state_action$future[[y]])
       } else {v <- 0}
-      idx <- diff_func(state_action$future[[y]],
+      idx <- 1 - diff_func(state_action$future[[y]],
                        state_action$future[[state_action$response]])
       loc <- state_action$current[x]
       c(as.numeric(loc), idx+v)})
