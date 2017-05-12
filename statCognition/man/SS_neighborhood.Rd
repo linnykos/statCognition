@@ -4,7 +4,7 @@
 \alias{SS_neighborhood}
 \title{Sample selection via neighborhood}
 \usage{
-SS_neighborhood(dat, quantile = 0.5, neighbor_threshold = 1, ...)
+SS_neighborhood(dat, quantile = 0.1, neighbor_threshold = 2, ...)
 }
 \arguments{
 \item{dat}{data object}

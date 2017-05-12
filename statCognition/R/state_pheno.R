@@ -46,7 +46,7 @@ state_pheno_MI <- function(dat, numBins = 4, ...){
   pairs <- expand.grid(1:d, 1:ncol(dat$pheno))
   vec <- apply(pairs, 1, function(x){
     bins <- .discretize_bins(dat$mat[,as.numeric(x[1])], dat$pheno[,as.numeric(x[2])], numBins)
-    entropy::mi.empirical(bins)
+    tryCatch({entropy::mi.empirical(bins)}, warning = function(w){0})
   })
 
   stats::median(vec)

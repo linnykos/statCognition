@@ -24,6 +24,19 @@ test_that(".synthetic_generator_seed is reproducible", {
   expect_true(all(res$mat == res2$mat))
 })
 
+test_that(".synthetic_generator_seed matches synthetic_generator", {
+  set.seed(10)
+  dat <- statCognition::dat
+  syn_init <- statCognition:::synthetic_initializer(lambda = 4)
+  set.seed(9)
+  res <- statCognition:::synthetic_generator(dat, syn_init)
+
+  seed <- get_seed(res)
+  res2 <- .synthetic_generator_seed(dat, syn_init, seed = seed)
+
+  expect_true(all(res$mat == res2$mat))
+})
+
 ##################
 
 ## synthetic_generator is correct

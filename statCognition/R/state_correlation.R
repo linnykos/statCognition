@@ -16,8 +16,10 @@ state_monotone <- function(dat, num_pairs = 5, ...){
 
   vec <- apply(pairs, 2, function(x){
     res <- .reorder_vector(dat$mat[,x[1]], dat$mat[,x[2]])
-    coef_vec <- .fused_lasso_cv(x = res$vec1, y = res$vec2)
-    .alternating_direction_sum(coef_vec)/diff(range(coef_vec))
+    tryCatch({
+      coef_vec <- .fused_lasso_cv(x = res$vec1, y = res$vec2)
+      .alternating_direction_sum(coef_vec)/diff(range(coef_vec))},
+      error = function(e){0})
   })
 
   stats::median(vec)
@@ -70,10 +72,13 @@ state_linearity <- function(dat, test_prop = 0.1, quant = 0.75, num_pairs = 50, 
 
 ###################
 .fused_lasso_cv <- function(x, y){
-  fit <- genlasso::fusedlasso1d(y = y, pos = x)
+  tryCatch({fit <- genlasso::fusedlasso1d(y = y, pos = x)
   lambda <- .trend_filter_minlamda(fit)
 
-  coef_vec <- as.numeric(stats::coef(fit, lambda = lambda)$beta)
+  coef_vec <- as.numeric(stats::coef(fit, lambda = lambda)$beta)},
+  error = function(e){
+    .isoreg_try(x = x, y = y)
+  })
 }
 
 #reorder vec1 to be sorted and vec2 to maintain same relative position

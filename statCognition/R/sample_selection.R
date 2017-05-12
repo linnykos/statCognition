@@ -18,12 +18,13 @@ SS_none <- function(dat, ...){
 #'
 #' @return list containing the modified \code{mat} and \code{pheno}
 #' @export
-SS_neighborhood <- function(dat, quantile = 0.5, neighbor_threshold = 1, ...){
+SS_neighborhood <- function(dat, quantile = 0.1, neighbor_threshold = 2, ...){
   stopifnot("mat" %in% names(dat), class(dat) == "data")
 
   mat_scale <- scale(dat$mat)
-  dis <- stats::dist(mat_scale)
-  rad <- stats::quantile(dis, probs = quantile)
+  dis <- as.matrix(stats::dist(mat_scale)); diag(dis) <- Inf
+  vec <- apply(dis, 1, stats::quantile, probs = quantile)
+  rad <- stats::median(vec)
   nn <- dbscan::frNN(mat_scale, eps = rad)
 
   bool <- sapply(nn$id, function(x){
