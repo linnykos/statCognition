@@ -4,7 +4,7 @@ context("Test synthetic generator functions: phenotype")
 
 test_that("generator_resample_pheno works", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_resample_pheno(dat, 0.5)
 
   expect_true(is.matrix(res$mat))
@@ -15,7 +15,7 @@ test_that("generator_resample_pheno works", {
 
 test_that("generator_resample_pheno works with 0", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_resample_pheno(dat, 1e-4)
 
   expect_true(is.matrix(res$mat))
@@ -30,7 +30,7 @@ test_that("generator_resample_pheno works with 0", {
 
 test_that("generator_linearize_pheno works", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_linearize_pheno(dat, 1, 1)
 
   expect_true(is.matrix(res$mat))
@@ -41,7 +41,7 @@ test_that("generator_linearize_pheno works", {
 
 test_that("generator_linearize_pheno works with 0", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_linearize_pheno(dat, 1e-4, 1e-4)
 
   expect_true(is.matrix(res$mat))
@@ -56,7 +56,7 @@ test_that("generator_linearize_pheno works with 0", {
 
 test_that("generator_monotonic_pheno works", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_monotonic_pheno(dat, 1, 0)
 
   expect_true(is.matrix(res$mat))
@@ -67,7 +67,7 @@ test_that("generator_monotonic_pheno works", {
 
 test_that("generator_monotonic_pheno works with 0", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_monotonic_pheno(dat, 1e-4, 1e-4)
 
   expect_true(is.matrix(res$mat))
@@ -82,7 +82,7 @@ test_that("generator_monotonic_pheno works with 0", {
 
 test_that("generator_cluster_pheno works", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_cluster_pheno(dat, 1, 1, 2)
 
   expect_true(is.matrix(res$mat))
@@ -93,7 +93,7 @@ test_that("generator_cluster_pheno works", {
 
 test_that("generator_cluster_pheno works with 0", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_cluster_pheno(dat, 1e-4, 1e-4, 3)
 
   expect_true(is.matrix(res$mat))
@@ -104,7 +104,7 @@ test_that("generator_cluster_pheno works with 0", {
 
 test_that("generator_cluster_pheno does not introduce new values", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
 
   set.seed(710+1)
   idx <- sample(1:15, 1)

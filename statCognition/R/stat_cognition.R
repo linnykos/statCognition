@@ -74,7 +74,6 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F){
     #estimate contribution_ll
     contribution_ll <- lapply(1:num_state_vec[i], function(k){
       lapply(1:num_act_vec[i], function(l){
-        print(paste0(k, ":", l))
         .contribution_estimate(locidx_ll[[k]][[l]][,1], locidx_ll[[k]][[l]][,2])})
     })
 
