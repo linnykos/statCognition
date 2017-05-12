@@ -1,3 +1,10 @@
+#' Generate synthetic data
+#'
+#' @param dat data object
+#' @param init synthetic_intializer object
+#'
+#' @return data object with a new field \code{seed}
+#' @export
 synthetic_generator <- function(dat, init){
   stopifnot(class(dat) == "data", class(init) == "synthetic_initializer")
 
@@ -10,6 +17,12 @@ synthetic_generator <- function(dat, init){
   dat_synthetic
 }
 
+#' Get seed of data object
+#'
+#' @param dat data object
+#'
+#' @return numeric
+#' @export
 get_seed <- function(dat){
   if("synthetic_seed" %in% names(dat)){
     dat$synthetic_seed

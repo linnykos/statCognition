@@ -74,7 +74,7 @@ system can reconstruct exactly the same synthetic datasets without you explicitl
 needing to store them.
 
 ```{r}
-syn_init <- statCognition:::synthetic_initializer(lambda = 4)
+syn_init <- synthetic_initializer(lambda = 4)
 syn_list <- vector("list", 20)
 seed_vec <- rep(0, 20)
 

@@ -42,7 +42,7 @@ test_that("generator_inflate_correlation works", {
 
 test_that("generator_inflate_correlation works with 0", {
   set.seed(10)
-  load("../assets/demo.RData")
+  dat <- statCognition::dat
   res <- generator_inflate_correlation(dat, 1e-4, 1e-4)
 
   expect_true(is.matrix(res$mat))

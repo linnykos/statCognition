@@ -1,3 +1,14 @@
+#' Synthetic generator initializer
+#'
+#' The number of synthetic functions applied onto the dataset is controlled
+#' by a Poisson random variable with parameter \code{lambda}
+#'
+#' @param func_list list of functions that take in \code{data} object and return
+#' another \code{data} object
+#' @param lambda tuning parameter
+#'
+#' @return synthetic_intializer object
+#' @export
 synthetic_initializer <- function(func_list = .grab_package_contents("generator"),
                                   lambda = 5){
   stopifnot(length(lambda) == 1, is.numeric(lambda), lambda %% 1 == 0, lambda > 0)
