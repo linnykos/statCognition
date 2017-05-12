@@ -103,17 +103,33 @@ response_vec <- c(1,2,1,   2,1,3,  1,1,1,   2,1,3,  1,1,1,
 ```
 
 Now we feed them into the statistical cognition system.
-```{r}
+```{r, cache=T}
 cog_init <- statCognition:::stat_cognition_initializer(action_ll = action_ll, 
                                                        state_ll = state_ll,
                                                        generator_init = syn_init)
 
-res_cog <- stat_cognition(dat, cog_init, seed_vec, response_vec, verbose = T)
+res_cog <- statCognition:::stat_cognition(dat, cog_init, seed_vec, response_vec)
 ```
 
 Now we can evaluate the value functions.
 ```{r}
 result <- evaluate(res_cog, dat)
+result
 ```
 
+We see that our pipeline returns that there is a dependency between the two
+variables. Here is how the learned pipelined analyzed the data.
+
+```{r fig.width=8, fig.height=3}
+par(mfrow = c(1,3))
+
+plot(dat$mat[,1:2], xlab = "", ylab = "", pch = 16, yaxt = "n", xaxt = "n", asp = T,
+     col = compute_color(dat), main = "Original data")
+dat2 <- action_ll[[1]][[result$pipeline[1]]](dat)
+plot(dat2$mat[,1:2], xlab = "", ylab = "", pch = 16, yaxt = "n", xaxt = "n", asp = T,
+     main = "Remove Phenotype")
+dat2 <- action_ll[[2]][[result$pipeline[2]]](dat2)
+plot(dat2$mat[,1:2], xlab = "", ylab = "", pch = 16, yaxt = "n", xaxt = "n", asp = T,
+     main = "Remove Outlier")
+```
 

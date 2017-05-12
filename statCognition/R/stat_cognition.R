@@ -1,4 +1,4 @@
-stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F, ...){
+stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F){
   num_step <- length(init$action_ll)
   num_act_vec <- sapply(init$action_ll, length)
   num_mat <- length(seed_vec)
