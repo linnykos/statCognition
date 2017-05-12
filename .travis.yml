@@ -10,9 +10,7 @@ r_binary_packages:
     - dbscan
     - entropy
     - energy
-    - softImpute
     - randomForest
-    - huge
     - genlasso
     - hash
 

@@ -14,8 +14,6 @@ Imports:
     energy,
     entropy,
     randomForest,
-    softImpute,
-    huge,
     genlasso,
     hash
 Suggests:
