@@ -1,0 +1,30 @@
+---
+title: "Demo"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading the data
+
+The dataset we will be using is a bivaraite dataset with a phenotype (numeric)
+with 107 samples. The goal is to access whether or not there is dependency between
+the two variables after the phenotype has been accounted for. This dataset
+was subsetted from the BrainSpan (microarray) dataset, so we do not have 
+access to whether or not they are dependent in truth.
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
