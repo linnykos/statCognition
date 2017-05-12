@@ -16,15 +16,85 @@ was subsetted from the BrainSpan (microarray) dataset, so we do not have
 access to whether or not they are dependent in truth.
 
 ```{r cars}
-summary(cars)
+library(statCognition)
+dat <- statCognition::dat
 ```
 
-## Including Plots
+For purely illustrative purposes, let's plot the data so we know what it
+looks like. Typically (in an actual usage), we would discourage the user
+from looking at the data in any way prior to completing the system. We code the
+phenotype \texttt{Days} so large values are red and small values are blue.
 
-You can also embed plots, for example:
+```{r}
+compute_color <- function(x){
+  sapply(1:nrow(x$pheno), function(y){
+    rgb(min(max((x$pheno[y,1])/107,0),1), 0, min(max((107-x$pheno[y,1])/107,0), 1))
+  })
+}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+plot(dat$mat[,1:2], xlab = "", ylab = "", pch = 16, yaxt = "n", xaxt = "n", asp = T,
+     col = compute_color(dat))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Setting up the system
+
+Let us decide what the stages of our analysis will be as well as the actions
+and state functions for each stage. We will consider 3 stages: the first
+stage to remove phenotype effects, the second stage to remove outliers, 
+and the third stage to estimate whether or not there is dependency.
+
+```{r}
+action_ll <- vector("list", 3)
+action_ll[[1]] <- list(RC_none = RC_none, RC_linear_regression = RC_linear_regression,
+                       RC_pairing_difference = RC_pairing_difference)
+action_ll[[2]] <- list(SS_none = SS_none, SS_cook = SS_cook, 
+                       SS_neighborhood = SS_neighborhood)
+action_ll[[3]] <- list(PD_pearson = PD_pearson, PD_kendall = PD_kendall,
+                       PD_energy = PD_energy)
+names(action_ll) <- c("Remove_confounder", "Sample_selection", "Pairwise_dependency")
+```
+
+```{r}
+state_ll <- vector("list", 3)
+state_ll[[1]] <- list(state_pheno_MI = state_pheno_MI, 
+                      state_pheno_residual = state_pheno_residual)
+state_ll[[2]] <- list(state_variance = state_variance, 
+                      state_interpoint = state_interpoint)
+state_ll[[3]] <- list(state_samples = state_samples, state_linearity = state_linearity,
+                      state_monotone = state_monotone)
+names(state_ll) <- c("Phenotype", "Outlier", "Dependency")
+```
+
+```{r}
+cog_init <- statCognition:::stat_cognition_initializer(action_ll = action_ll, state_ll = state_ll)
+```
+
+## Creating synthetic data
+
+For the system to learn our preferences on how to analyze data, we'll need
+to generate synthetic data. Let's generate 20 synthetic datasets and 
+plot them all. Each synthetic dataset is labeled by a seed, so the cognition
+system can reconstruct exactly the same synthetic datasets without you explicitly
+needing to store them.
+
+```{r}
+syn_init <- statCognition:::synthetic_initializer(lambda = 4)
+syn_list <- vector("list", 20)
+seed_vec <- rep(0, 20)
+
+par(mfrow = c(4,5), mar = rep(0.1, 4))
+for(i in 1:20){
+  set.seed(i)
+  res <- statCognition:::synthetic_generator(dat, syn_init)
+  plot(res$mat[,1:2], xlab = "", ylab = "", pch = 16, yaxt = "n", xaxt = "n", asp = T,
+       col = compute_color(res))
+  
+  syn_list[[i]] <- res
+  seed_vec[i] <- statCognition:::get_seed(res)
+}
+
+seed_vec
+```
+
+
+

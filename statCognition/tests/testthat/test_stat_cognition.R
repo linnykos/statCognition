@@ -33,7 +33,7 @@ test_that(".estimate_value_cognition works", {
   state_action_ll[[2]][[2]] <- .store_state_action(dat2b, action_ll[[2]], state_ll[[2]],
                                                    NA, dat2, 2)
 
-  init <- stat_cognition_initializer(action_ll = action_ll, state_ll <- state_ll)
+  init <- stat_cognition_initializer(action_ll = action_ll, state_ll = state_ll)
 
   res <- .estimate_value_cognition(state_action_ll, init)
 
