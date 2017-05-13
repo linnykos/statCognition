@@ -89,10 +89,13 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F,
 
     #estimate contribution_ll
     contribution_ll <- lapply(1:num_state_vec[i], function(k){
-      lapply(1:num_act_vec[i], function(l){
+      res <- lapply(1:num_act_vec[i], function(l){
         .contribution_estimate(locidx_ll[[k]][[l]][,1], locidx_ll[[k]][[l]][,2],
                                locidx_ll[[k]][[l]][,3], store = store)})
+      names(res) <- names(init$action_ll[[i]])
+      res
     })
+    names(contribution_ll) <- names(init$state_ll[[i]])
 
     value_list[[i]] <- value_estimate(contribution_ll, store = store)
     val <- value_list[[i]]

@@ -108,7 +108,7 @@ cog_init <- statCognition:::stat_cognition_initializer(action_ll = action_ll,
                                                        state_ll = state_ll,
                                                        generator_init = syn_init)
 
-res_cog <- statCognition:::stat_cognition(dat, cog_init, seed_vec, response_vec)
+res_cog <- statCognition:::stat_cognition(dat, cog_init, seed_vec, response_vec, store = T)
 ```
 
 Now we can evaluate the value functions.

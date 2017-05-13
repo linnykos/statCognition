@@ -17,7 +17,7 @@ plot.value <- function(x, type = "contribution", ...){
   invisible()
 }
 
-.plot_value_contribution <- function(contribution_ll, ...){
+.plot_value_contribution <- function(contribution_ll, contribution = F, ...){
   stopifnot(length(unique(sapply(contribution_ll, length))) == 1)
 
   d <- length(contribution_ll); a <- unique(sapply(contribution_ll, length))
@@ -26,7 +26,8 @@ plot.value <- function(x, type = "contribution", ...){
   graphics::par(mfrow = c(a,d))
   for(i in 1:d){
     for(j in 1:a){
-      graphics::plot(contribution_ll[[i]][[j]], main = paste0(d_nam[i],":",a_nam[i]), ...)
+      plot.contribution(contribution_ll[[i]][[j]], main = paste0(d_nam[i],":",a_nam[j]),
+                        contribution = contribution, ...)
     }
   }
 
