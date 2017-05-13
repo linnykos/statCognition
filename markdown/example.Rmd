@@ -81,12 +81,12 @@ seed_vec <- rep(0, 20)
 par(mfrow = c(4,5), mar = rep(0.1, 4))
 for(i in 1:20){
   set.seed(i)
-  res <- statCognition:::synthetic_generator(dat, syn_init)
+  res <- synthetic_generator(dat, syn_init)
   plot(res$mat[,1:2], xlab = "", ylab = "", pch = 16, yaxt = "n", xaxt = "n", asp = T,
        col = compute_color(res))
   
   syn_list[[i]] <- res
-  seed_vec[i] <- statCognition:::get_seed(res)
+  seed_vec[i] <- get_seed(res)
 }
 
 seed_vec
@@ -104,11 +104,11 @@ response_vec <- c(1,2,1,   2,1,3,  1,1,1,   2,1,3,  1,1,1,
 
 Now we feed them into the statistical cognition system.
 ```{r, cache=T}
-cog_init <- statCognition:::stat_cognition_initializer(action_ll = action_ll, 
+cog_init <- stat_cognition_initializer(action_ll = action_ll, 
                                                        state_ll = state_ll,
                                                        generator_init = syn_init)
 
-res_cog <- statCognition:::stat_cognition(dat, cog_init, seed_vec, response_vec, store = T)
+res_cog <- stat_cognition(dat, cog_init, seed_vec, response_vec, store = T)
 ```
 
 Now we can evaluate the value functions.
@@ -133,3 +133,18 @@ plot(dat2$mat[,1:2], xlab = "", ylab = "", pch = 16, yaxt = "n", xaxt = "n", asp
      main = "Remove Outlier")
 ```
 
+## Interpreting the value function
+
+We can plot the contribution functions. We start with the last one.
+
+```{r}
+plot(res_cog$value_list[[3]], samples = T, contribution = T, ylab = "Value", pch = 16)
+```
+
+```{r}
+plot(res_cog$value_list[[2]], samples = T, contribution = T, ylab = "Value", pch = 16)
+```
+
+```{r}
+plot(res_cog$value_list[[1]], samples = T, contribution = T, ylab = "Value", pch = 16)
+```

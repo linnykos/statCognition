@@ -1,3 +1,12 @@
+#' Statistical cognition system initializer
+#'
+#' @param action_ll list of list of actions
+#' @param state_ll list of list of states
+#' @param difference_list list of difference functions
+#' @param generator_init synthetic_initializer object
+#'
+#' @return stat_cognition_initializer object
+#' @export
 stat_cognition_initializer <- function(action_ll, state_ll, difference_list = NA,
                                        generator_init = synthetic_initializer()){
   stopifnot(length(action_ll) == length(state_ll))

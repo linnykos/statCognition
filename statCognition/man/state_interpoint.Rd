@@ -15,6 +15,6 @@ state_interpoint(dat, ...)
 value
 }
 \description{
-Computes the ratio between the maximum (minimum distance to nearest point)
-over minimum (minimum distance to nearest point)
+Computes the ratio between the minimum (minimum distance to nearest point)
+over the maximum (minimum distance to nearest point)
 }

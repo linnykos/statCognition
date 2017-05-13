@@ -23,7 +23,7 @@ plot.value <- function(x, type = "contribution", ...){
   d <- length(contribution_ll); a <- unique(sapply(contribution_ll, length))
   d_nam <- names(contribution_ll); a_nam <- names(contribution_ll[[1]])
 
-  graphics::par(mfrow = c(a,d))
+  graphics::par(mfrow = c(d,a))
   for(i in 1:d){
     for(j in 1:a){
       plot.contribution(contribution_ll[[i]][[j]], main = paste0(d_nam[i],":",a_nam[j]),

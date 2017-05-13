@@ -15,8 +15,8 @@ state_variance <- function(dat, num_pc = 1, ...){
 
 #' State feature: interpoint distance
 #'
-#' Computes the ratio between the maximum (minimum distance to nearest point)
-#' over minimum (minimum distance to nearest point)
+#' Computes the ratio between the minimum (minimum distance to nearest point)
+#' over the maximum (minimum distance to nearest point)
 #'
 #' @param dat data object
 #' @param ... not used
@@ -33,5 +33,5 @@ state_interpoint <- function(dat, ...){
     min(dis[x,])
   })
 
-  max(vec)/min(vec)
+  max(vec)/stats::quantile(vec, probs = 0.75)
 }
