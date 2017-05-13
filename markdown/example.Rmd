@@ -60,8 +60,7 @@ state_ll[[1]] <- list(state_pheno_MI = state_pheno_MI,
                       state_pheno_residual = state_pheno_residual)
 state_ll[[2]] <- list(state_variance = state_variance, 
                       state_interpoint = state_interpoint)
-state_ll[[3]] <- list(state_samples = state_samples, state_linearity = state_linearity,
-                      state_monotone = state_monotone)
+state_ll[[3]] <- list(state_samples = state_samples, state_linearity = state_linearity)
 names(state_ll) <- c("Phenotype", "Outlier", "Dependency")
 ```
 
