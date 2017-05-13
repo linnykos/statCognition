@@ -25,7 +25,7 @@ plot.value <- function(x, type = "contribution", ...){
       names(contribution_list) <- names(x$contribution_ll)
 
       #plot
-      .plot_value_contribution_surface(contribution_list, main = names(contribution_ll[[1]])[i], ...)
+      .plot_value_contribution_surface(contribution_list, main = names(x$contribution_ll[[1]])[i], ...)
     }
 
   } else if(type == "surface"){

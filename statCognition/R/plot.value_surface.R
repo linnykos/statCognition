@@ -25,8 +25,10 @@
 #does two things: 1) extend the min and max value, 2) duplicated all values with -tol
 .pad_vector <- function(vec, tol = 1e-4){
   stopifnot(all(vec == sort(vec, decreasing = F)))
+  if(length(vec) == 1) return(c(vec-1,vec,vec+1))
+
   m <- length(vec)
-  width <- diff(range(vec))
+  width <- diff(range(vec))/20
 
   tmp <- as.numeric(sapply(2:m, function(x){vec[x] - c(tol,0)}))
   tmp <- c(vec[1], tmp)

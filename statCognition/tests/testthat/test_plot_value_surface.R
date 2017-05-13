@@ -12,9 +12,22 @@ test_that(".plot_value_contribution_surface works",{
 
   obj <- value_estimate(contribution_ll, store = T)
 
-  plot(obj, type = "contribution_surface")
-
   pdf("Rplots.pdf", height = 6, width = 8)
-  .plot_value_contribution_surface(obj)
+  plot(obj, type = "contribution_surface")
   graphics.off(); file.remove("Rplots.pdf")
+})
+
+###################
+
+## .pad_vector is correct
+
+test_that(".pad_vector works", {
+  res <- .pad_vector(1:5, tol = .5)
+  width <- diff(range(1:5))/20
+  expect_true(all(res == c(1-width, 1, 2-.5, 2, 3-.5, 3, 4-.5, 4, 5-.5, 5, 5+width)))
+})
+
+test_that(".pad_vector works for a singleton", {
+  res <- .pad_vector(1, tol = .5)
+  expect_true(all(res == c(0,1,2)))
 })
