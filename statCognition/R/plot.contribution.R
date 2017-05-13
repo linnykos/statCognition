@@ -1,10 +1,22 @@
+#' Plotting function for contribution
+#'
+#' @param x contribution object
+#' @param jitter boolean for jittering x-axis
+#' @param samples boolean for plotting samples
+#' @param contribution boolean splitting samples into total value and contribution
+#' @param lwd plotting \code{lwd} parameter for samples
+#' @param line_lwd plotting \code{lwd} parameter for fit
+#' @param ... other plotting parameters
+#'
+#' @return void
+#' @export
 plot.contribution <- function(x, jitter = T, samples = F, contribution = F,
                               lwd = 1, line_lwd = 3, ...){
   if(samples) stopifnot(!any(is.na(x$samples)))
 
   if(!any(is.na(x$samples))){
     xvec <- x$samples[,1]; yvec1 <- x$samples[,2]; yvec2 <- x$samples[,3]
-  } else {yvec <- NA; xvec1 <- NA; xvec2 <- NA}
+  } else {xvec <- NA; yvec1 <- NA; yvec2 <- NA}
 
   xlim <- c(min(c(x$breakpoints, xvec), na.rm = T),
             max(c(x$breakpoints, xvec), na.rm = T))
