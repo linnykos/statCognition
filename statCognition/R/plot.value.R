@@ -7,11 +7,29 @@
 #' @return void
 #' @export
 plot.value <- function(x, type = "contribution", ...){
-  stopifnot(type %in% c("contribution"))
+  stopifnot(type %in% c("contribution", "contribution_surface", "surface"))
 
   if(type == "contribution"){
     stopifnot(!any(is.na(x$contribution_ll)))
     .plot_value_contribution(x$contribution_ll, ...)
+
+  } else if(type == "contribution_surface") {
+    stopifnot(!any(is.na(x$contribution_ll)))
+
+    d <- length(x$contribution_ll)
+    a <- length(x$contribution_ll[[1]])
+    for(i in 1:a){
+      #reorganize
+      fun <- function(j){x$contribution_ll[[j]][[i]]}
+      contribution_list <- lapply(1:d, fun)
+      names(contribution_list) <- names(x$contribution_ll)
+
+      #plot
+      .plot_value_contribution_surface(contribution_list, main = names(contribution_ll[[1]])[i], ...)
+    }
+
+  } else if(type == "surface"){
+
   }
 
   invisible()
