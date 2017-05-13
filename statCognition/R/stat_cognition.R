@@ -94,7 +94,7 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F,
                                locidx_ll[[k]][[l]][,3], store = store)})
     })
 
-    value_list[[i]] <- value_estimate(contribution_ll)
+    value_list[[i]] <- value_estimate(contribution_ll, store = store)
     val <- value_list[[i]]
   }
 

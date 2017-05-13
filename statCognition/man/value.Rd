@@ -4,10 +4,13 @@
 \alias{value}
 \title{Value function}
 \usage{
-value(surface)
+value(surface, contribution_ll = NA)
 }
 \arguments{
 \item{surface}{list of \code{hash} and \code{block_list}}
+
+\item{contribution_ll}{list of lists of contribution objects, for visualization
+purposes only}
 }
 \value{
 value object

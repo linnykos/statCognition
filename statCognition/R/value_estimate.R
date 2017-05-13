@@ -1,4 +1,4 @@
-value_estimate <- function(contribution_ll){
+value_estimate <- function(contribution_ll, store = F){
   stopifnot(class(contribution_ll) == "list")
   stopifnot(all(sapply(contribution_ll, class) == "list"))
   stopifnot(all(unlist(sapply(contribution_ll, function(x){sapply(x, class)})) == "contribution"))
@@ -15,7 +15,12 @@ value_estimate <- function(contribution_ll){
   h <- hash::hash()
   apply(grid, 1, function(x){.update_hash(h, contribution_ll, block_list, x)})
 
-  value(list(hash = h, block_list = block_list))
+  if(store){
+    value(list(hash = h, block_list = block_list), contribution_ll = contribution_ll)
+  } else {
+    value(list(hash = h, block_list = block_list))
+  }
+
 }
 
 #############################

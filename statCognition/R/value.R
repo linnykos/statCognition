@@ -10,11 +10,14 @@
 #' domain of the state element correspond to which blocks.
 #'
 #' @param surface list of \code{hash} and \code{block_list}
+#' @param contribution_ll list of lists of contribution objects, for visualization
+#' purposes only
 #'
 #' @return value object
 #' @export
-value <- function(surface){
-  res <- structure(list(surface = surface), class = "value")
+value <- function(surface, contribution_ll = NA){
+  res <- structure(list(surface = surface, contribution_ll = contribution_ll),
+                   class = "value")
 
   is_valid(res)
   res
@@ -28,7 +31,7 @@ value <- function(surface){
 #' @return boolean
 #' @export
 is_valid.value <- function(obj, ...){
-  stopifnot(all(names(obj) == "surface"))
+  stopifnot(all(names(obj) == c("surface", "contribution_ll")))
   stopifnot(all(names(obj$surface) == c("hash", "block_list")))
 
   stopifnot(class(obj$surface$hash) == "hash")
