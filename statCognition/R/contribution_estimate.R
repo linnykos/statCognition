@@ -1,16 +1,24 @@
-.contribution_estimate <- function(loc, val){
-  stopifnot(is.numeric(loc), !is.matrix(loc), is.numeric(val), !is.matrix(val))
-  stopifnot(length(loc) == length(loc))
+.contribution_estimate <- function(loc, values1, values2 = rep(0, length(values1)),
+                                   store = F){
+  stopifnot(is.numeric(loc), !is.matrix(loc))
+  stopifnot(is.numeric(values1), !is.matrix(values1))
+  stopifnot(length(loc) == length(values1))
 
-  res <- .reorder_vector(loc, val)
+  values <- values1 + values2
+  res <- .reorder_vector(loc, values)
   if(length(loc) >= 10) {
     coef_vec <- .fused_lasso_cv(x = res$vec1, y = res$vec2)
   } else {
     coef_vec <- .isoreg_try(x = res$vec1, y = res$vec2)
   }
 
+  if(store){
+    samples <- cbind(loc, values, values2)
+    colnames(samples) <- c("breakpoints", "total_value", "contribution")
+  } else samples <- NA
+
   #output
-  contribution(breakpoints = res$vec1, values1 = coef_vec)
+  contribution(breakpoints = res$vec1, values = coef_vec, samples = samples)
 }
 
 

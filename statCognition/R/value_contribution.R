@@ -10,7 +10,7 @@
       idx <- 1 - diff_func(state_action$future[[y]],
                        state_action$future[[state_action$response]])
       loc <- state_action$current[x]
-      c(as.numeric(loc), idx+v/3)})
+      c(as.numeric(loc), v/3, idx)})
     names(res) <- names(state_action$future)
     res
   })

@@ -1,4 +1,19 @@
-stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F){
+#' Statistical cognition system
+#'
+#' @param dat data object
+#' @param init synthetic_initializer object
+#' @param seed_vec vector of seeds for synthetic data
+#' @param response_vec optional responses. If not supplied, the system is interactive
+#' @param verbose boolean on print statements
+#' @param store boolean to output the contribution functions themselves for visualization
+#' purposes only
+#'
+#' @return
+#' @export
+#'
+#' @examples
+stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F,
+                           store = F){
   num_step <- length(init$action_ll)
   num_act_vec <- sapply(init$action_ll, length)
   num_mat <- length(seed_vec)
@@ -35,7 +50,8 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F){
     }
   }
 
-  value_list <- .estimate_value_cognition(state_action_ll, init, verbose = verbose)
+  value_list <- .estimate_value_cognition(state_action_ll, init, verbose = verbose,
+                                          store = store)
 
   structure(list(value_list = value_list, action_ll = init$action_ll,
                  state_ll = init$state_ll), class = "stat_cognition")
@@ -45,7 +61,7 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F){
 
 # work backword, forming loc-idx for dimension-action, contribution_ll and
 ## value function for each step
-.estimate_value_cognition <- function(state_action_ll, init, verbose = F){
+.estimate_value_cognition <- function(state_action_ll, init, verbose = F, store = F){
 
   num_step <- length(init$action_ll); num_mat <- length(state_action_ll)
   num_act_vec <- sapply(init$action_ll, length)
@@ -57,7 +73,7 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F){
     if(verbose) print(paste0("Fitting iteration ", i))
 
     locidx_ll <- lapply(1:num_state_vec[i], function(x){
-      lapply(1:num_act_vec[i], function(x){matrix(0, num_mat, 2)})
+      lapply(1:num_act_vec[i], function(x){matrix(0, num_mat, 3)})
     })
 
     #iterate over all synthetic data
@@ -74,7 +90,8 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F){
     #estimate contribution_ll
     contribution_ll <- lapply(1:num_state_vec[i], function(k){
       lapply(1:num_act_vec[i], function(l){
-        .contribution_estimate(locidx_ll[[k]][[l]][,1], locidx_ll[[k]][[l]][,2])})
+        .contribution_estimate(locidx_ll[[k]][[l]][,1], locidx_ll[[k]][[l]][,2],
+                               locidx_ll[[k]][[l]][,3], store = store)})
     })
 
     value_list[[i]] <- value_estimate(contribution_ll)

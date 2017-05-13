@@ -1,36 +1,25 @@
 #' Contribution object
 #'
-#' Each of these functions are right continuous
+#' Each of these functions are right continuous.
 #'
 #' @param breakpoints vector of numerics (breakpoints, x-direction), must be sorted
-#' @param values1 vector of numerics (downstream value)
-#' @param values2 vector of numerics (contribution)
-#' @param store boolean on whether or not to store
+#' @param values vector of numerics (downstream value)
+#' @param samples (optional) 3-column numeric matrix to store in the contribution
+#' matrix, used solely for plotting purposes.
 #'
 #' @return
 #' @export
 #'
 #' @examples
-contribution <- function(breakpoints, values1, values2 = rep(0, length(values1)),
-                         store = F){
-  stopifnot(length(breakpoints) == length(values1), is.numeric(breakpoints),
-            is.numeric(values1), !is.matrix(breakpoints), !is.matrix(values1))
-  stopifnot(length(values2) == length(values1), is.numeric(values2), !is.matrix(values2))
+contribution <- function(breakpoints, values, samples = NA){
+  stopifnot(length(breakpoints) == length(values), is.numeric(breakpoints),
+            is.numeric(values), !is.matrix(breakpoints), !is.matrix(values))
   stopifnot(breakpoints == sort(breakpoints, decreasing = F))
-
-  values <- values1 + values2
 
   res <- .remove_duplicate_breakpoints(breakpoints, values)
   res <- .remove_duplicate_values(res$breakpoints, res$values)
 
-  if(store){
-    mat <- cbind(breakpoints, values, values2)
-    colnames(mat) <- c("breakpoints", "total_value", "contribution")
-  } else {
-    mat <- NA
-  }
-
-  structure(list(breakpoints = res$breakpoints, values = res$values, samples = mat),
+  structure(list(breakpoints = res$breakpoints, values = res$values, samples = samples),
             class = "contribution")
 }
 

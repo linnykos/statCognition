@@ -4,18 +4,16 @@
 \alias{contribution}
 \title{Contribution object}
 \usage{
-contribution(breakpoints, values1, values2 = rep(0, length(values1)),
-  store = F)
+contribution(breakpoints, values, samples = NA)
 }
 \arguments{
 \item{breakpoints}{vector of numerics (breakpoints, x-direction), must be sorted}
 
-\item{values1}{vector of numerics (downstream value)}
+\item{values}{vector of numerics (downstream value)}
 
-\item{values2}{vector of numerics (contribution)}
-
-\item{store}{boolean on whether or not to store}
+\item{samples}{(optional) 3-column numeric matrix to store in the contribution
+matrix, used solely for plotting purposes.}
 }
 \description{
-Each of these functions are right continuous
+Each of these functions are right continuous.
 }
