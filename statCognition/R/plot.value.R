@@ -16,21 +16,10 @@ plot.value <- function(x, type = "contribution", ...){
   } else if(type == "contribution_surface") {
     stopifnot(!any(is.na(x$contribution_ll)))
 
-    d <- length(x$contribution_ll)
-    a <- length(x$contribution_ll[[1]])
-    surface_list <- vector("list", a)
-    for(i in 1:a){
-      #reorganize
-      fun <- function(j){x$contribution_ll[[j]][[i]]}
-      contribution_list <- lapply(1:d, fun)
-      names(contribution_list) <- names(x$contribution_ll)
-
-      #surface
-      surface_list[[i]] <- .compute_surface(contribution_list)
-    }
-
-    #compute limits
+    surface_list <- .reformat_surfaces(x$contribution_ll)
     lim <- .compute_surface_limits(surface_list)
+    surface_list <- .adjust_surface(surface_list, lim)
+    a <- length(x$contribution_ll[[1]])
 
     for(i in 1:a){
       .plot_value_contribution_surface(x = surface_list[[i]]$xvec, y = surface_list[[i]]$yvec,
@@ -63,6 +52,35 @@ plot.value <- function(x, type = "contribution", ...){
   invisible()
 }
 
+.reformat_surfaces <- function(contribution_ll){
+  d <- length(contribution_ll)
+  a <- length(contribution_ll[[1]])
+  surface_list <- vector("list", a)
+
+  for(i in 1:a){
+    #reorganize
+    fun <- function(j){contribution_ll[[j]][[i]]}
+    contribution_list <- lapply(1:d, fun)
+    names(contribution_list) <- names(contribution_ll)
+
+    #surface
+    surface_list[[i]] <- .compute_surface(contribution_list)
+  }
+
+  surface_list
+}
+
+.adjust_surface <- function(surface_list, lim){
+  for(i in 1:length(surface_list)){
+    surface_list[[i]]$xvec[1] <- lim$xlim[1]
+    surface_list[[i]]$xvec[length(surface_list[[i]]$xvec)] <- lim$xlim[2]
+    surface_list[[i]]$yvec[1] <- lim$ylim[1]
+    surface_list[[i]]$yvec[length(surface_list[[i]]$yvec)] <- lim$ylim[2]
+  }
+
+  surface_list
+}
+
 .compute_surface_limits <- function(surface_list){
   len <- length(surface_list)
   xvec <- as.numeric(unlist(lapply(1:len, function(x){surface_list[[x]]$xvec})))
@@ -73,6 +91,8 @@ plot.value <- function(x, type = "contribution", ...){
 
   zvec <- as.numeric(unlist(lapply(1:len, function(x){as.numeric(surface_list[[x]]$z)})))
   zlim <- c(min(zvec), max(zvec))
+
+  if(zlim[1] == zlim[2]) zlim <- c(zlim[1] - 1, zlim[1] + 1)
 
   list(xlim = xlim, ylim = ylim, zlim = zlim)
 }
