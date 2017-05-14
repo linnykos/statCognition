@@ -18,14 +18,25 @@ plot.value <- function(x, type = "contribution", ...){
 
     d <- length(x$contribution_ll)
     a <- length(x$contribution_ll[[1]])
+    surface_list <- vector("list", a)
     for(i in 1:a){
       #reorganize
       fun <- function(j){x$contribution_ll[[j]][[i]]}
       contribution_list <- lapply(1:d, fun)
       names(contribution_list) <- names(x$contribution_ll)
 
-      #plot
-      .plot_value_contribution_surface(contribution_list, main = names(x$contribution_ll[[1]])[i], ...)
+      #surface
+      surface_list[[i]] <- .compute_surface(contribution_list)
+    }
+
+    #compute limits
+    lim <- .compute_surface_limits(surface_list)
+
+    for(i in 1:a){
+      .plot_value_contribution_surface(x = surface_list[[i]]$xvec, y = surface_list[[i]]$yvec,
+                                       z = surface_list[[i]]$z,
+                                       main = names(x$contribution_ll[[1]])[i],
+                                       xlim = lim$xlim, ylim = lim$ylim, zlim = lim$zlim, ...)
     }
 
   } else if(type == "surface"){
@@ -50,4 +61,18 @@ plot.value <- function(x, type = "contribution", ...){
   }
 
   invisible()
+}
+
+.compute_surface_limits <- function(surface_list){
+  len <- length(surface_list)
+  xvec <- as.numeric(unlist(lapply(1:len, function(x){surface_list[[x]]$xvec})))
+  xlim <- c(min(xvec), max(xvec))
+
+  yvec <- as.numeric(unlist(lapply(1:len, function(x){surface_list[[x]]$yvec})))
+  ylim <- c(min(yvec), max(yvec))
+
+  zvec <- as.numeric(unlist(lapply(1:len, function(x){as.numeric(surface_list[[x]]$z)})))
+  zlim <- c(min(zvec), max(zvec))
+
+  list(xlim = xlim, ylim = ylim, zlim = zlim)
 }

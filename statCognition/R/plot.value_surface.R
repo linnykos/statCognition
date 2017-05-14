@@ -1,5 +1,19 @@
-.plot_value_contribution_surface <- function(x, tol = 1e-4, theta = 30, phi = 30, expand = 0.5,
-                                             col = "lightblue", ticktype = "detailed", ...){
+.plot_value_contribution_surface <- function(x = x, y = y, z = z, theta = 30, phi = 30,
+                                             expand = 0.5, col = "lightblue",
+                                             ticktype = "detailed", ...){
+  graphics::persp(x, y, z, theta = theta, phi = phi, expand = expand, col = col,
+                  ticktype = ticktype, xlab = names(x)[1], ylab = names(x)[2], ...)
+
+  invisible()
+}
+
+.plot_value_surface <- function(x, ...){
+  invisible()
+}
+
+#######################################
+
+.compute_surface <- function(x, tol = 1e-4){
   #set up the axes
   xvec <- x[[1]]$breakpoints; yvec <- x[[2]]$breakpoints
   xval <- x[[1]]$values; yval <- x[[2]]$values
@@ -11,16 +25,9 @@
   #set up the height
   z <- outer(xval, yval, "+")
 
-  #plot
-  graphics::persp(xvec, yvec, z, theta = theta, phi = phi, expand = expand, col = col,
-                  ticktype = ticktype, xlab = names(x)[1], ylab = names(x)[2], ...)
-
-  invisible()
+  list(xvec = xvec, yvec = yvec, z = z)
 }
 
-.plot_value_surface <- function(x, ...){
-
-}
 
 #does two things: 1) extend the min and max value, 2) duplicated all values with -tol
 .pad_vector <- function(vec, tol = 1e-4){

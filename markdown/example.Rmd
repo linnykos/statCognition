@@ -150,7 +150,7 @@ plot(res_cog$value_list[[1]], samples = T, contribution = T, ylab = "Value", pch
 
 We can also plot each individual contribution function.
 ```{r}
-par(mfrow = c(1,3))
+par(mfrow = c(1,3), mar = rep(1,4))
 plot(res_cog$value_list[[3]], type = "contribution_surface")
 ```
 
