@@ -2,7 +2,7 @@
                                              expand = 0.5, col = "lightblue",
                                              ticktype = "detailed", ...){
   graphics::persp(x, y, z, theta = theta, phi = phi, expand = expand, col = col,
-                  ticktype = ticktype, xlab = names(x)[1], ylab = names(x)[2], ...)
+                  ticktype = ticktype, ...)
 
   invisible()
 }

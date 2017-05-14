@@ -25,7 +25,9 @@ plot.value <- function(x, type = "contribution", ...){
       .plot_value_contribution_surface(x = surface_list[[i]]$xvec, y = surface_list[[i]]$yvec,
                                        z = surface_list[[i]]$z,
                                        main = names(x$contribution_ll[[1]])[i],
-                                       xlim = lim$xlim, ylim = lim$ylim, zlim = lim$zlim, ...)
+                                       xlim = lim$xlim, ylim = lim$ylim, zlim = lim$zlim,
+                                       xlab = names(x$contribution_ll)[1],
+                                       ylab = names(x$contribution_ll)[2], ...)
     }
 
   } else if(type == "surface"){
