@@ -7,6 +7,12 @@ cache: packages
 
 r_binary_packages:
     - MASS
+    - dbscan
+    - entropy
+    - energy
+    - randomForest
+    - genlasso
+    - hash
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
