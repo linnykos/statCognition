@@ -30,12 +30,15 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F,
     dat <- .synthetic_generator_seed(dat_org, init$generator_init, seed = seed_vec[i])
     prev_dat <- dat
 
+    if(all(is.na(response_vec))){cat(paste0("Starting analysis for synthetic data with seed ", seed_vec[i], ":\n"))}
     for(j in 1:num_step){
       #record action
       if(all(is.na(response_vec))){
         response <- readline(paste0("Enter the action's number that you would like ",
-                                    "to perform, among: ",
-                                    paste0(names(init$action_ll[[j]]), collapse = ", ")))
+                                    "to perform, among: \n",
+                                    paste0(1:num_act_vec[j], ") ",
+                                           names(init$action_ll[[j]]), collapse = ",\n"), "\n"))
+        response <- as.numeric(response)
       } else {
         response <- response_vec[counter]; counter <- counter + 1
       }
@@ -48,6 +51,9 @@ stat_cognition <- function(dat, init, seed_vec, response_vec = NA, verbose = F,
       prev_dat <- dat
       dat <- init$action_ll[[j]][[response]](dat)
     }
+
+    if(all(is.na(response_vec))){cat(paste0("============\n"))}
+
   }
 
   value_list <- .estimate_value_cognition(state_action_ll, init, verbose = verbose,
